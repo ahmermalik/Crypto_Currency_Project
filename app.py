@@ -55,20 +55,12 @@ class AuthorHandler(TemplateHandler):
     posts = BlogPost.select()
     self.render_template(page + '.html', {'posts': posts})
 
-class CategoryHandler(TemplateHandler):
-  def get(self, category):
-
-      posts = BlogPost.select().where(BlogPost.category == category)
-      self.render_template('category.html', {'posts': posts, 'category': category})
 
 
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
-        (r"/post/(.*)/comment", CommentHandler),
-        (r"/post/(.*)", PostHandler),
         (r"/page/(.*)", PageHandler),
-        (r"/category/(.*)", CategoryHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
