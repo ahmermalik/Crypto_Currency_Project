@@ -15,7 +15,6 @@ ENV = Environment(
 )
 
 
-
 class TemplateHandler(tornado.web.RequestHandler):
     def render_template(self, tpl, context):
         template = ENV.get_template(tpl)
@@ -24,37 +23,15 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
-        posts = BlogPost.select().order_by(BlogPost.created.desc())
-        self.render_template("base.html", {'posts': posts})
-
-
-class PostHandler(TemplateHandler):
-    def get(self, slug):
-        post = BlogPost.select().where(BlogPost.slug == slug).get()
-        self.render_template("post.html", {'post': post})
-
+        self.render_template("base.html", {})
 
 
 class PageHandler(TemplateHandler):
-  def get(self, page):
-    self.set_header(
-      'Cache-Control',
-      'no-store, no-cache, must-revalidate, max-age=0')
-
-    posts = BlogPost.select()
-    self.render_template(page + '.html', {'posts': posts, categories: CATEGORIES})
-
-
-
-class AuthorHandler(TemplateHandler):
-  def get(self, page):
-    self.set_header(
-       'Cache-Control',
-       'no-store, no-cache, must-revalidate, max-age=0')
-
-    posts = BlogPost.select()
-    self.render_template(page + '.html', {'posts': posts})
-
+      def get(self, page):
+        self.set_header(
+          'Cache-Control',
+          'no-store, no-cache, must-revalidate, max-age=0')
+        self.render_template(page + '.html', {})
 
 
 def make_app():
@@ -65,12 +42,10 @@ def make_app():
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
 
-
+PORT = int(os.environ.get('PORT', '1337'))
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
-    app = make_app()
-    app.listen(int(os.environ.get('PORT', '1337')))
-    tornado.ioloop.IOLoop.current().start()
-    print("PORT 1337 ACTIVATED")
 
-
+app = make_app()
+app.listen(PORT, print('Server started on localhost: ' + str(PORT)))
+tornado.ioloop.IOLoop.current().start()
