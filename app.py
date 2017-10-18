@@ -35,14 +35,6 @@ class PostHandler(TemplateHandler):
 
 
 
-class CommentHandler(TemplateHandler):
-    def post(self, slug):
-        comment = self.get_body_argument('comment')
-        post = BlogPost.select() \
-            .where(BlogPost.slug == slug).get()
-        comment = Comments.create(blogpost=post, comment=comment)
-        self.redirect('/post/' + slug)
-
 class PageHandler(TemplateHandler):
   def get(self, page):
     self.set_header(
