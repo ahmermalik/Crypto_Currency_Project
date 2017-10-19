@@ -33,10 +33,17 @@ class MainHandler(TemplateHandler):
 #         self.render_template(page + '.html', {})
 
 
+class ParsedDataHandler(TemplateHandler):
+    def get(self):
+        pass
+
+
+
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         # (r"/page/(.*)", PageHandler),
+        (r"/AM_parsed_data_test", ParsedDataHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
