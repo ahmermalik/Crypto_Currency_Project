@@ -45,7 +45,6 @@ def make_app():
 PORT = int(os.environ.get('PORT', '1337'))
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
-
-app = make_app()
-app.listen(PORT, print('Server started on localhost: ' + str(PORT)))
-tornado.ioloop.IOLoop.current().start()
+    app = make_app()
+    app.listen(PORT, print('Server started on localhost: ' + str(PORT)))
+    tornado.ioloop.IOLoop.current().start()
