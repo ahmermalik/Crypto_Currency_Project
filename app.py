@@ -3,6 +3,8 @@ import os
 import tornado.ioloop
 import tornado.web
 import tornado.log
+import requests
+
 
 from jinja2 import \
     Environment, PackageLoader, select_autoescape
@@ -34,16 +36,31 @@ class MainHandler(TemplateHandler):
 
 
 class ParsedDataHandler(TemplateHandler):
-    def get(self):
-        pass
+        def get(self, page):
+                self.set_header(
+                  'Cache-Control',
+                  'no-store, no-cache, must-revalidate, max-age=0')
+                self.render_template('data_parser.html', {})
 
+        def orderbook(self):
+            url = "https://bittrex.com/api/v1.1/public/getorderbook"
 
+            querystring = {"market": "BTC-LTC", "type": "both"}
+
+            headers = {
+                'cache-control': "no-cache",
+                'postman-token': "1700863e-c007-79df-6a9b-bc985f2ff94d"
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring)
+
+            self.render_template('data_parser.html', {})
 
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         # (r"/page/(.*)", PageHandler),
-        (r"/AM_parsed_data_test", ParsedDataHandler),
+        (r"/data_parser(.*)", ParsedDataHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
