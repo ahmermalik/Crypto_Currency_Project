@@ -14,12 +14,9 @@ from dotenv import load_dotenv
 from jinja2 import \
     Environment, PackageLoader, select_autoescape
 
-<<<<<<< HEAD
 # Access variables from the .env file
 load_dotenv('.env')
 
-=======
->>>>>>> 676bb8dccf1656af053206b45b56d142461dfbfa
 ENV = Environment(
     loader=PackageLoader('dashboard', 'templates'),
     autoescape=select_autoescape(['html', 'xml'])
@@ -37,21 +34,12 @@ class MainHandler(TemplateHandler):
         self.render_template("index.html", {})
 
 
-<<<<<<< HEAD
-class PageHandler(TemplateHandler):
-    def get(self, page):
-        self.set_header(
-            'Cache-Control',
-            'no-store, no-cache, must-revalidate, max-age=0')
-        self.render_template(page + '.html', {})
-=======
 # class PageHandler(TemplateHandler):
 #       def get(self, page):
 #         self.set_header(
 #           'Cache-Control',
 #           'no-store, no-cache, must-revalidate, max-age=0')
 #         self.render_template(page + '.html', {})
->>>>>>> 676bb8dccf1656af053206b45b56d142461dfbfa
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -112,22 +100,14 @@ settings = {
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
-<<<<<<< HEAD
-        (r"/login", LoginHandler),
-        (r"/page/(.*)", PageHandler),
-=======
         # (r"/page/(.*)", PageHandler),
->>>>>>> 676bb8dccf1656af053206b45b56d142461dfbfa
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
 
 
-<<<<<<< HEAD
 PORT = int(os.environ.get('PORT', '1337'))
 
-=======
->>>>>>> 676bb8dccf1656af053206b45b56d142461dfbfa
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
     app = make_app()
