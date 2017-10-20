@@ -26,6 +26,17 @@ class MainHandler(TemplateHandler):
     def get(self):
         self.render_template("index.html", {})
 
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+
+        response = requests.post(url, params=querystring)
+
+        print(response.json())
+        self.render_template("index.html", {'data': response.json()})
+
+
 
 # class PageHandler(TemplateHandler):
 #       def get(self, page):
@@ -55,6 +66,7 @@ class ParsedDataHandler(TemplateHandler):
             response = requests.request("GET", url, headers=headers, params=querystring)
 
             self.render_template('data_parser.html', {})
+
 
 def make_app():
     return tornado.web.Application([
