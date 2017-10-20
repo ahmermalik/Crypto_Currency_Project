@@ -1,32 +1,54 @@
-body {
-  background-color: #595655;
+html, body {
+  font-family: 'VT323', monospace;
+  font-family: 'Droid Sans Mono', monospace;
+  background-color: #E5E3E3;
 }
 
 .header {
-  background-color: grey;
   height: 12vh;
   align-items: center;
   text-align: center;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  color: white;
+  background-color: grey;
+  background-image: url("../images/header.jpg");
+
 }
 .header_title {
-  /*background-color: pink;*/
+  text-shadow: 0 0 3px white, 0 0 10px #0000FF;
 }
 
-.header_search {
-  /*background-color: white;*/
-}
 
-.header_userauth {
-  /*background-color: red;*/
-}
-
-.ticker {
-  background-color: black;
-  color: white;
-}
 .card {
-  background-color: grey;
+  background-color: white;
   margin: 10px;
+}
+
+.list-group-item {
+  background-color: #E5E3E3;
+}
+
+
+.wrapper:hover {
+    background:rgba(0,0,0,0);
+}
+
+.wrapper:hover .expose {
+    background:#ddd;
+}
+
+.entry-content {
+    padding:6px;
+}
+
+.expose {
+    margin-bottom:6px;
+    padding:12px;
+    border-radius:3px;
+    background:#eee;
+}
+
+.expose:hover {
+    background:#fff!important;
 }

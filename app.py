@@ -35,21 +35,9 @@ class MainHandler(TemplateHandler):
         print(response.json())
         self.render_template("index.html", {'data': response.json()})
 
-
-
-# class PageHandler(TemplateHandler):
-#       def get(self, page):
-#         self.set_header(
-#           'Cache-Control',
-#           'no-store, no-cache, must-revalidate, max-age=0')
-#         self.render_template(page + '.html', {})
-
-
-
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
-        # (r"/page/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
