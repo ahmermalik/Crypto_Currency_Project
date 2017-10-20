@@ -18,7 +18,7 @@ ENV = Environment(
     loader=PackageLoader('dashboard', 'templates'),
     autoescape=select_autoescape(['html', 'xml'])
 )
-PORT = int(os.environ.get('PORT', '1337'))
+PORT = int(os.environ.get('PORT', '8080'))
 
 
 class TemplateHandler(tornado.web.RequestHandler):
@@ -96,8 +96,8 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
-    "cookie_secret": os.environ["COOKIE_SECRET"],
-}
+    "cookie_secret": os.environ["COOKIE_SECRET"]}
+
 
 def make_app():
     return tornado.web.Application([
