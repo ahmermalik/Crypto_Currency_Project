@@ -1,5 +1,5 @@
 boto3
-python-dotenv
+python-dotenv==0.7.1
 tornado==4.5.2
 Jinja2==2.9.6
 requests
