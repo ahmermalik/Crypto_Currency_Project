@@ -3,6 +3,7 @@ import os
 import tornado.ioloop
 import tornado.web
 import tornado.log
+import requests
 
 from jinja2 import \
     Environment, PackageLoader, select_autoescape
@@ -24,6 +25,17 @@ class MainHandler(TemplateHandler):
     def get(self):
         self.render_template("index.html", {})
 
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+
+        response = requests.post(url, params=querystring)
+
+        print(response.json())
+        self.render_template("index.html", {'data': response.json()})
+
+
 
 # class PageHandler(TemplateHandler):
 #       def get(self, page):
@@ -33,17 +45,11 @@ class MainHandler(TemplateHandler):
 #         self.render_template(page + '.html', {})
 
 
-class ParsedDataHandler(TemplateHandler):
-    def get(self):
-        pass
-
-
 
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         # (r"/page/(.*)", PageHandler),
-        (r"/AM_parsed_data_test", ParsedDataHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], autoreload=True)
