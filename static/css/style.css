@@ -13,10 +13,12 @@ html, body {
   color: white;
   background-color: grey;
   background-image: url("../images/header.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
 
 }
 .header_title {
-  text-shadow: 0 0 3px white, 0 0 10px #0000FF;
+  text-shadow: 0 0 3px white, 0 0 10px blue;
 }
 
 

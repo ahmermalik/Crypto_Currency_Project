@@ -3,40 +3,31 @@
 {% block  content %}
 <div class="container">
   <div class="row header">
-    <div class="col-md-4 header_title">
+
+    <div class="col-md-4 col-sm-4 header_title">
       <h3>Crypto Currency Dashboard</h3>
     </div>
 
-    <div class="col-md-4 header_search">
-
-
-
-
+    <div class="col-md-6 col-sm-4 header_search">
       <div class="cntr">
 	       <div class="cntr-innr">
 	          <form class="search" action="" method="post" for="inpt_search" >
-			          <p> <input id="inpt_search" name = "ticker_symbol" value="{% if data %}{{ data.result[0].MarketName }}{% endif %}" type="text" /> </p>
+			          <p> <input id="inpt_search" name = "ticker_symbol" value="" type="text" /> </p>
 		        </form>
 	       </div>
       </div>
-
-
-
-
-
-
     </div>
 
-    <div class="col-md-4 header_userauth">
+    <div class="col-md-2 col-sm-4 header_userauth">
       <form action="/">
         <button class="btn btn-primary" name="login">Login</button>
       </form>
     </div>
+
   </div>
 
 
 <div class="wrapper">
-
 <div class="row databox entry-content">
 
   <div class="col card expose" style="width: 20rem;">
@@ -155,4 +146,4 @@
 
 
 
-proof of purchase needs: IMEI, customer name and it needs to be 
+proof of purchase needs: IMEI, customer name and it needs to be
