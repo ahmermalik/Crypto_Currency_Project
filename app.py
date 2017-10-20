@@ -49,13 +49,13 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         # The authorization `code` in the URL that was returned from Google
         # allows for this statement to be true
         # Example URL:
-        # http://example.com/login?code=4/GdQlpUVhfTvV6tReFLG6q9czdTd32NWn3wzC90dwlTc 
+        # http://example.com/login?code=4/GdQlpUVhfTvV6tReFLG6q9czdTd32NWn3wzC90dwlTc
         if self.get_argument('code', False):
             # Exchanges the authorization `code` for an access token
             access = yield self.get_authenticated_user(
                 redirect_uri='http://localhost:1337/login',
                 code=self.get_argument('code'))
-            # After obtaining an access token, that token can be used to gain access to user info 
+            # After obtaining an access token, that token can be used to gain access to user info
             user = yield self.oauth2_request(
                 "https://www.googleapis.com/oauth2/v1/userinfo",
                 access_token=access["access_token"])
@@ -72,8 +72,8 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
 
 
             # Signs and timestamps a cookie so it cannot be forged
-            # User will not have to login again as long as cookie is not tampered with or deleted 
-            self.set_secure_cookie('crypto_user', user['email']) 
+            # User will not have to login again as long as cookie is not tampered with or deleted
+            self.set_secure_cookie('crypto_user', user['email'])
             self.redirect('/')
             return
 
