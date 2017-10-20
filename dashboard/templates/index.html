@@ -8,13 +8,23 @@
     </div>
 
     <div class="col-md-4 header_search">
+
+
+
+
       <div class="cntr">
 	       <div class="cntr-innr">
-	          <label class="search" for="inpt_search">
-			           <input id="inpt_search" type="text" />
-		        </label>
+	          <form class="search" action="" method="post" for="inpt_search" >
+			          <p> <input id="inpt_search" name = "ticker_symbol" value="{% if data %}{{ data.result[0].MarketName }}{% endif %}" type="text" /> </p>
+		        </form>
 	       </div>
       </div>
+
+
+
+
+
+
     </div>
 
     <div class="col-md-4 header_userauth">
@@ -36,7 +46,7 @@
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Cras justo odio {% if data %}{{ data.result[0].High }}{% endif %}</li>
     <li class="list-group-item">Dapibus ac facilisis in</li>
     <li class="list-group-item">Vestibulum at eros</li>
   </ul>
@@ -140,4 +150,9 @@
   </div>
 </div>
 
+  </div>
 {% endblock %}
+
+
+
+proof of purchase needs: IMEI, customer name and it needs to be 
