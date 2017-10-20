@@ -3,10 +3,16 @@ import os
 import tornado.ioloop
 import tornado.web
 import tornado.log
+# For login with OAuth
+import tornado.auth
 import requests
 
+from dotenv import load_dotenv
 from jinja2 import \
     Environment, PackageLoader, select_autoescape
+
+# Access variables from the .env file
+load_dotenv('.env')
 
 ENV = Environment(
     loader=PackageLoader('dashboard', 'templates'),
@@ -19,6 +25,21 @@ class TemplateHandler(tornado.web.RequestHandler):
     def render_template(self, tpl, context):
         template = ENV.get_template(tpl)
         self.write(template.render(**context))
+
+
+class MainHandler(TemplateHandler):
+    def get(self):
+        self.render_template("index.html", {})
+
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+
+        response = requests.post(url, params=querystring)
+
+        print(response.json())
+        self.render_template("index.html", {'data': response.json()})
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -72,21 +93,6 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                 extra_params={'approval_prompt': 'auto'})
 
 
-class MainHandler(TemplateHandler):
-    def get(self):
-        self.render_template("index.html", {})
-
-    def post(self):
-        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
-        coin = self.get_body_argument('ticker_symbol')
-        querystring = {"market": "btc-" + coin}
-
-        response = requests.post(url, params=querystring)
-
-        print(response.json())
-        self.render_template("index.html", {'data': response.json()})
-
-
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
@@ -96,6 +102,7 @@ settings = {
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
+        (r"/login", LoginHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
