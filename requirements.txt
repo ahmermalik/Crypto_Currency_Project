@@ -3,3 +3,6 @@ python-dotenv
 tornado==4.5.2
 Jinja2==2.9.6
 requests
+peewee
+markdown2
+psycopg2

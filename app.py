@@ -24,7 +24,12 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
+
+
+
+
         self.render_template("index.html", {})
+
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
