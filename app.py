@@ -6,6 +6,7 @@ import tornado.log
 # For login with OAuth
 import tornado.auth
 import requests
+from models import User, Currency, UserCurrency, Market
 
 from dotenv import load_dotenv
 from jinja2 import \
@@ -67,13 +68,17 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
             lname = user["family_name"]
             picture = user["picture"]
             # Check if user already exists in Users table
-
+            user = User.select().where(User.email == email)
             # If user does not exist, insert user into Users table
+            if not user:
+                User.create(email=email,
+                            fname=fname,
+                            lname=lname,
+                            picture=picture).save()
+                # Signs and timestamps a cookie so it cannot be forged
+                # User will not have to login again as long as cookie is not tampered with or deleted
+                self.set_secure_cookie('crypto_user', email)
 
-
-            # Signs and timestamps a cookie so it cannot be forged
-            # User will not have to login again as long as cookie is not tampered with or deleted
-            self.set_secure_cookie('crypto_user', user['email'])
             self.redirect('/')
             return
 

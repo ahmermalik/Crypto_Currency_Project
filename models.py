@@ -33,14 +33,14 @@ class Currency(BaseModel):
     coin_pair = peewee.CharField(max_length=10)
     day_high = peewee.DecimalField()
     day_low = peewee.DecimalField()
-    volume = peewee.IntegerField()
-    last_price = peewee.IntegerField()
-    base_volume = peewee.IntegerField()
-    bid_price = peewee.IntegerField()
-    ask_price = peewee.IntegerField()
-    open_buy = peewee.IntegerField()
-    open_sell = peewee.IntegerField()
-    prev_day = peewee.IntegerField()
+    volume = peewee.FloatField()
+    last_price = peewee.FloatField()
+    base_volume = peewee.FloatField()
+    bid_price = peewee.FloatField()
+    ask_price = peewee.FloatField()
+    open_buy = peewee.FloatField()
+    open_sell = peewee.FloatField()
+    prev_day = peewee.FloatField()
 
     def __str__(self):
         return self.coin_name
@@ -60,3 +60,5 @@ class UserCurrency(BaseModel):
     """This table creates relations between user & currency classes"""
     user = peewee.ForeignKeyField(User, null=True)
     currency = peewee.ForeignKeyField(Currency, null=True)
+
+
