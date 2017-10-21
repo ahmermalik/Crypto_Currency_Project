@@ -23,7 +23,6 @@ class User(BaseModel):
     email = peewee.CharField(max_length=60)
     picture = peewee.CharField()
 
-
     def __str__(self):
         return self.name
 

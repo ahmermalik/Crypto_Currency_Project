@@ -27,26 +27,35 @@ class TemplateHandler(tornado.web.RequestHandler):
         template = ENV.get_template(tpl)
         self.write(template.render(**context))
 
+    def get_current_user(self):
+        # Returns user's cookie, which is their unique id number
+        return self.get_secure_cookie("crypto_user")
+
 
 class MainHandler(TemplateHandler):
     def get(self):
+        # if user already logged in, redirects to their dashboard
+        # self.current_user calls the get_current_user function 
+        # inherited from the TemplateHandler
+        if self.current_user:
+            # Retrieve user's cookie, which has their unique id number
+            user_cookie = self.current_user
+            # Redirect to user's dashboard
+            return self.redirect('/dashboard/{}'.format(int(user_cookie)))
         self.render_template("index.html", {})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
         coin = self.get_body_argument('ticker_symbol')
         querystring = {"market": "btc-" + coin}
-
         response = requests.post(url, params=querystring)
-
-        print(response.json())
         self.render_template("index.html", {'data': response.json()})
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
     @tornado.gen.coroutine
     def get(self):
-        # This portion gets triggered second apon a person's first login
+        # This portion gets triggered second upon a person's first login
         # The authorization `code` in the URL that was returned from Google
         # allows for this statement to be true
         # Example URL:
@@ -60,8 +69,6 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
             user = yield self.oauth2_request(
                 "https://www.googleapis.com/oauth2/v1/userinfo",
                 access_token=access["access_token"])
-
-            print(user)
             # Retrieve user information
             email = user["email"]
             fname = user["given_name"]
@@ -75,18 +82,16 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                             fname=fname,
                             lname=lname,
                             picture=picture).save()
+                # Get the newly created user
+                user = User.select().where(User.email == email).get()
                 # Signs and timestamps a cookie so it cannot be forged
                 # User will not have to login again as long as cookie is not tampered with or deleted
-                self.set_secure_cookie('crypto_user', email)
+                # Using user's unique id number as their cookie
+                self.set_secure_cookie('crypto_user', str(user.id))
+                # Redirect to user's dashbaord
+                return self.redirect('/dashboard/{}'.format(user.id))
 
-            self.redirect('/')
-            return
-
-        elif self.get_secure_cookie('crypto_user'):
-            self.redirect('/')
-            return
-
-        # This portion actually gets triggered first apon a person's first login
+        # This portion actually gets triggered first upon a person's first login
         # An authorization `code` is returned from Google
         # A redirect is made to this same Loginhandler with that authorization code
         else:
@@ -98,16 +103,37 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                 extra_params={'approval_prompt': 'auto'})
 
 
+# # Create user dashboard handler
+# class DashboardHandler(TemplateHandler):
+#     # If a request goes to a method with this decorator, 
+#     # and the user is not logged in, they will be 
+#     # redirected to login_url in application setting
+#     @tornado.web.authenticated
+#     def get(self, slug):
+#         # get user's portfolio based off of slug in url
+#         # the slug in the URL is their unique ID number
+
+#         # Check UserCurrency table for all user_id that is same as slug
+
+#         # If UseCurrency has any results, display their preferences
+
+#         # if UserCurrency has no results, display random currencies at first
+
+
+
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
-    "cookie_secret": os.environ["COOKIE_SECRET"]}
+    "cookie_secret": os.environ["COOKIE_SECRET"],
+    "login_url": "/"
+    }
 
 
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/login", LoginHandler),
+        # (r"/dashboard/(.*)", DashboardHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
