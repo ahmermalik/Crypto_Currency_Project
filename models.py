@@ -12,10 +12,12 @@ DB = connect(
     )
 )
 
+
 class BaseModel(peewee.Model):
     """your base model will always stay the same. all the other tables will inhert from this."""
     class Meta:
         database = DB
+
 
 class User(BaseModel):
     fname = peewee.CharField(max_length=60)
@@ -41,19 +43,24 @@ class Currency(BaseModel):
     open_sell = peewee.FloatField()
     prev_day = peewee.FloatField()
 
-    def __str__(self):
-        return self.coin_name
+    # def __str__(self):
+    #     return self.coin_name
+
 
 class Market(BaseModel):
-    coin_ticker = peewee.CharField(max_length=5)
-    coin_base = peewee.CharField(max_length=5)
-    coin_name = peewee.CharField(max_length= 15)
+    currency = peewee.ForeignKeyField(Currency, null=True)
+    coin_ticker = peewee.CharField(max_length=10)
+    coin_base = peewee.CharField(max_length=10)
+    coin_name = peewee.CharField(max_length=15)
+    coin_pair = peewee.CharField(max_length=15)
     coin_active = peewee.CharField(max_length=8)
     coin_created = peewee.DateTimeField()
     coin_logo = peewee.CharField()
 
+
     def __str__(self):
         return self.coin_ticker
+
 
 class UserCurrency(BaseModel):
     """This table creates relations between user & currency classes"""
