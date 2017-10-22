@@ -6,7 +6,7 @@ import markdown2
 
 
 DB = connect(
-    os.environ.get(                                         #how to connect the blog database to the server
+    os.environ.get(                                         #how to connect the app database to the server
         'DATABASE_URL',
         'postgres://localhost:5432/crypto_database'
     )
@@ -60,5 +60,3 @@ class UserCurrency(BaseModel):
     """This table creates relations between user & currency classes"""
     user = peewee.ForeignKeyField(User, null=True)
     currency = peewee.ForeignKeyField(Currency, null=True)
-
-
