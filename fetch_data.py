@@ -9,6 +9,8 @@ url = "https://bittrex.com/api/v1.1/public/getmarketsummaries"
         #fuction will be a while loop
 
 
+
+
 while True:
     response = requests.request("GET", url).json()['result']
     for item in response:
