@@ -35,7 +35,7 @@ class TemplateHandler(tornado.web.RequestHandler):
 class MainHandler(TemplateHandler):
     def get(self):
         # if user already logged in, redirects to their dashboard
-        # self.current_user calls the get_current_user function 
+        # self.current_user calls the get_current_user function
         # inherited from the TemplateHandler
         if self.current_user:
             # Retrieve user's cookie, which has their unique id number
@@ -102,11 +102,19 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                 response_type='code',
                 extra_params={'approval_prompt': 'auto'})
 
+class LogoutHandler(TemplateHandler):
+    """Logout handler"""
+    def get(self):
+        self.clear_cookie('crypto_user')
+        return self.redirect('/')
+
+
+
 
 # # Create user dashboard handler
 # class DashboardHandler(TemplateHandler):
-#     # If a request goes to a method with this decorator, 
-#     # and the user is not logged in, they will be 
+#     # If a request goes to a method with this decorator,
+#     # and the user is not logged in, they will be
 #     # redirected to login_url in application setting
 #     @tornado.web.authenticated
 #     def get(self, slug):
@@ -133,6 +141,7 @@ def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         (r"/login", LoginHandler),
+        (r"/logout", LogoutHandler),
         # (r"/dashboard/(.*)", DashboardHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
