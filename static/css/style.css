@@ -24,7 +24,20 @@ html, body {
 
 .card {
   background-color: white;
-  /*margin: 5px;*/
+}
+
+.card-block-top {
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+  justify-content: center;
+}
+.card-title {
+  flex: auto;
+}
+.card-img-top {
+  width: 20%;
+  mix-blend-mode: multiply;
 }
 
 .list-group-item {

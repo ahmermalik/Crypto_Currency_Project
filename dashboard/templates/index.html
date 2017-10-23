@@ -8,9 +8,9 @@
 
     {% for market in markets %}
     <div class="col-lg-4 col-md-6 col-xs-12 card expose">
-      <div class="card-block">
-        <h4 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h4>
-        <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
+      <div class="card-block-top">
+          <h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
+          <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Last Price: {{market.currency.last_price}}</li>
@@ -20,13 +20,13 @@
         <li class="list-group-item">Bid {{market.currency.bid_price}}</li>
         <li class="list-group-item">Ask {{market.currency.ask_price}}</li>
       </ul>
-      <div class="card-block">
+      <div class="card-block-bottom">
         <a href="#" class="card-link">Card link</a>
         <a href="#" class="card-link">Another link</a>
       </div>
     </div>
   {% endfor %}
-<!-- 
+<!--
     <div class="col-lg-4 col-md-6 col-xs-12 card expose" style="width: 20rem;">
       <img class="card-img-top" src="" alt="Card image cap">
       <div class="card-block">
