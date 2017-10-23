@@ -24,7 +24,7 @@ html, body {
 
 .card {
   background-color: white;
-  margin: 10px;
+  /*margin: 5px;*/
 }
 
 .list-group-item {
