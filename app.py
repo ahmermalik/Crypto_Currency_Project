@@ -108,9 +108,6 @@ class LogoutHandler(TemplateHandler):
         self.clear_cookie('crypto_user')
         return self.redirect('/')
 
-
-
-
 # # Create user dashboard handler
 # class DashboardHandler(TemplateHandler):
 #     # If a request goes to a method with this decorator,
@@ -126,6 +123,11 @@ class LogoutHandler(TemplateHandler):
 #         # If UseCurrency has any results, display their preferences
 
 #         # if UserCurrency has no results, display random currencies at first
+
+class PageHandler(TemplateHandler):
+  def get(self, page):
+
+    self.render_template(page + '.html', {})
 
 
 
@@ -143,6 +145,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         # (r"/dashboard/(.*)", DashboardHandler),
+        (r"/test/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
