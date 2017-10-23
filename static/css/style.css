@@ -13,19 +13,20 @@ html, body {
   border-bottom-right-radius: 10px;
   /*background-color: grey;*/
   /*background-image: url("../images/header.jpg");*/
-  background-repeat: no-repeat;
-  background-position: center;
+  /*background-repeat: no-repeat;
+  background-position: center;*/
 
 }
 
-.header_title {
+/*.header_title {
   color: white !important;
   text-shadow: 0 0 3px white, 0 0 10px blue;
-}
+}*/
 
 .header_logo {
   width: 60%;
 }
+
 .card {
   background-color: white;
 }
