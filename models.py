@@ -32,16 +32,16 @@ class User(BaseModel):
 class Currency(BaseModel):
     """This will create the currency table with its respective details"""
     coin_pair = peewee.CharField(null=True)
-    day_high = peewee.DecimalField(null=True)
-    day_low = peewee.DecimalField(null=True)
-    volume = peewee.FloatField(null=True)
-    last_price = peewee.FloatField(null=True)
-    base_volume = peewee.FloatField(null=True)
-    bid_price = peewee.FloatField(null=True)
-    ask_price = peewee.FloatField(null=True)
-    open_buy = peewee.FloatField(null=True)
-    open_sell = peewee.FloatField(null=True)
-    prev_day = peewee.FloatField(null=True)
+    day_high = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    day_low = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    volume = peewee.DecimalField(max_digits=20, decimal_places=4, null=True)
+    last_price = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    base_volume = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    bid_price = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    ask_price = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
+    open_buy = peewee.DecimalField(max_digits=20, decimal_places=0, null=True)
+    open_sell = peewee.DecimalField(max_digits=20, decimal_places=0, null=True)
+    prev_day = peewee.DecimalField(max_digits=20, decimal_places=10, null=True)
 
     # def __str__(self):
     #     return self.coin_name
