@@ -1,19 +1,20 @@
 import requests
 import time
 from models import Currency, Market
+
 currency_url = "https://bittrex.com/api/v1.1/public/getmarketsummaries"
 market_url = "https://bittrex.com/api/v1.1/public/getmarkets"
-# https://bittrex.com/api/v1.1/public/getmarketsummaries
-
-#Function will fetch all market data from api
-        #fuction will be a while loop
+# Set variables for API links.
 
 
 def market_update(currency):
     market_response = requests.request("GET", market_url).json()['result']
+    # Create a new variable to instantiate the api.
     isFound = False
+    # crypto-currency is set to not being in the database.
     for item in market_response:
         if item["MarketName"] == currency.coin_pair:
+            # if the
             isFound = True
             coin_ticker = item['MarketCurrency']
             coin_base = item['BaseCurrency']

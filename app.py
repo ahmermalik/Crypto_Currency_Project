@@ -35,6 +35,7 @@ class TemplateHandler(tornado.web.RequestHandler):
 class MainHandler(TemplateHandler):
     def get(self):
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+        # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
         self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin})
 
@@ -102,9 +103,6 @@ class LogoutHandler(TemplateHandler):
         self.clear_cookie('crypto_user')
         return self.redirect('/')
 
-
-
-
 # # Create user dashboard handler
 # class DashboardHandler(TemplateHandler):
 #     # If a request goes to a method with this decorator,
@@ -121,6 +119,19 @@ class LogoutHandler(TemplateHandler):
 
 #         # if UserCurrency has no results, display random currencies at first
 
+class PageHandler(TemplateHandler):
+    def get(self, page):
+        bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+        # set bitcoin as variable in order to render the price on the index page.
+        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
+        self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin})
+
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+        response = requests.post(url, params=querystring)
+        self.render_template("dashboard.html", {'data': response.json()})
 
 
 settings = {
@@ -137,6 +148,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         # (r"/dashboard/(.*)", DashboardHandler),
+        (r"/test/(pas.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
@@ -144,5 +156,5 @@ def make_app():
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
     app = make_app()
-    app.listen(PORT, print('Creating magic on port: ' + str(PORT)))
+    app.listen(PORT, print('Creating app on port: ' + str(PORT)))
     tornado.ioloop.IOLoop.current().start()
