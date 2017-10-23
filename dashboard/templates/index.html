@@ -13,12 +13,12 @@
           <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Last Price: {{market.currency.last_price}}</li>
-        <li class="list-group-item">Volume: {{(market.currency.base_volume * bitcoin.last_price)}}</li>
-        <li class="list-group-item">24 High: {{market.currency.day_high}}</li>
-        <li class="list-group-item">24 Low: {{market.currency.day_low}}</li>
-        <li class="list-group-item">Bid {{market.currency.bid_price}}</li>
-        <li class="list-group-item">Ask {{market.currency.ask_price}}</li>
+        <li class="list-group-item">Last Price: {{"%.10f"|format(market.currency.last_price)}}</li>
+        <li class="list-group-item">Volume: {{(market.currency.base_volume * bitcoin.last_price) | round }}</li>
+        <li class="list-group-item">24 High: {{"%.10f"|format(market.currency.day_high)}}</li>
+        <li class="list-group-item">24 Low: {{"%.10f"|format(market.currency.day_low)}}</li>
+        <li class="list-group-item">Bid {{"%.10f"|format(market.currency.bid_price)}}</li>
+        <li class="list-group-item">Ask {{"%.10f"|format(market.currency.ask_price)}}</li>
       </ul>
       <div class="card-block-bottom">
         <a href="#" class="card-link">Card link</a>
