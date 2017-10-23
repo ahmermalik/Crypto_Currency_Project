@@ -4,26 +4,59 @@
     {% endblock %}
   {% block  content %}
 
+
+
+
 <div class="wrapper">
   <div class="row databox entry-content">
 
+
+
+
     {% for market in markets %}
     <div class="col-lg-4 col-md-6 col-xs-12 card expose">
-      <div class="card-block">
-        <h4 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h4>
-        <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
+      <div class="card-block-top">
+          <h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
+          <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Last Price: {{market.currency.last_price}}</li>
-        <li class="list-group-item">Volume: {{(market.currency.base_volume * bitcoin.last_price)}}</li>
-        <li class="list-group-item">24 High: {{market.currency.day_high}}</li>
-        <li class="list-group-item">24 Low: {{market.currency.day_low}}</li>
-        <li class="list-group-item">Bid {{market.currency.bid_price}}</li>
-        <li class="list-group-item">Ask {{market.currency.ask_price}}</li>
+        <li class="list-group-item">Last Price: {{"%.10f"|format(market.currency.last_price)}}</li>
+        <li class="list-group-item">Volume: {{(market.currency.base_volume * bitcoin.last_price) | round }}</li>
+        <li class="list-group-item">24 High: {{"%.10f"|format(market.currency.day_high)}}</li>
+        <li class="list-group-item">24 Low: {{"%.10f"|format(market.currency.day_low)}}</li>
+        <li class="list-group-item">Bid {{"%.10f"|format(market.currency.bid_price)}}</li>
+        <li class="list-group-item">Ask {{"%.10f"|format(market.currency.ask_price)}}</li>
       </ul>
-      <div class="card-block">
+      <div class="card-block-bottom">
         <a href="#" class="card-link">Card link</a>
         <a href="#" class="card-link">Another link</a>
+          <!--where modal begins-->
+<div class="container">
+  <div class="row text-center">
+      <h3>The Large Modal</h3>
+      <a href="#" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#largeModal">Click to open Modal</a>
+  </div>
+
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Large Modal</h4>
+      </div>
+      <div class="modal-body">
+        <h3>Modal Body</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+          <!--where modal ends-->
       </div>
     </div>
   {% endfor %}
