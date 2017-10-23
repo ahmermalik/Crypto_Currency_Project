@@ -148,7 +148,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         # (r"/dashboard/(.*)", DashboardHandler),
-        (r"/test/(pas.*)", PageHandler),
+        (r"/test/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
