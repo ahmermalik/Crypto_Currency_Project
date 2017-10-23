@@ -1,2 +1,2 @@
-web: python3 admin.py
-api: fetch_data.py
+web: python3 app.py
+api: python3 fetch_data.py

@@ -148,7 +148,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         # (r"/dashboard/(.*)", DashboardHandler),
-        (r"/test/(.*)", PageHandler),
+        (r"/test/(pas.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
@@ -156,5 +156,5 @@ def make_app():
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
     app = make_app()
-    app.listen(PORT, print('Creating magic on port: ' + str(PORT)))
+    app.listen(PORT, print('Creating app on port: ' + str(PORT)))
     tornado.ioloop.IOLoop.current().start()
