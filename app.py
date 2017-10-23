@@ -34,8 +34,9 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
-        currencies = Market.select().order_by(Currency.volume).limit(6)
-        self.render_template("index.html", {'currencies': currencies})
+        bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
+        self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
