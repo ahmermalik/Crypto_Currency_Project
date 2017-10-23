@@ -35,6 +35,7 @@ class TemplateHandler(tornado.web.RequestHandler):
 class MainHandler(TemplateHandler):
     def get(self):
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+        # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
         self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin})
 
@@ -119,10 +120,18 @@ class LogoutHandler(TemplateHandler):
 #         # if UserCurrency has no results, display random currencies at first
 
 class PageHandler(TemplateHandler):
-  def get(self, page):
+    def get(self, page):
+        bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+        # set bitcoin as variable in order to render the price on the index page.
+        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
+        self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin})
 
-    self.render_template(page + '.html', {})
-
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+        response = requests.post(url, params=querystring)
+        self.render_template("dashboard.html", {'data': response.json()})
 
 
 settings = {
