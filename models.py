@@ -31,17 +31,17 @@ class User(BaseModel):
 
 class Currency(BaseModel):
     """This will create the currency table with its respective details"""
-    coin_pair = peewee.CharField(max_length=10)
-    day_high = peewee.DecimalField()
-    day_low = peewee.DecimalField()
-    volume = peewee.FloatField()
-    last_price = peewee.FloatField()
-    base_volume = peewee.FloatField()
-    bid_price = peewee.FloatField()
-    ask_price = peewee.FloatField()
-    open_buy = peewee.FloatField()
-    open_sell = peewee.FloatField()
-    prev_day = peewee.FloatField()
+    coin_pair = peewee.CharField(null=True)
+    day_high = peewee.DecimalField(null=True)
+    day_low = peewee.DecimalField(null=True)
+    volume = peewee.FloatField(null=True)
+    last_price = peewee.FloatField(null=True)
+    base_volume = peewee.FloatField(null=True)
+    bid_price = peewee.FloatField(null=True)
+    ask_price = peewee.FloatField(null=True)
+    open_buy = peewee.FloatField(null=True)
+    open_sell = peewee.FloatField(null=True)
+    prev_day = peewee.FloatField(null=True)
 
     # def __str__(self):
     #     return self.coin_name
@@ -49,13 +49,13 @@ class Currency(BaseModel):
 
 class Market(BaseModel):
     currency = peewee.ForeignKeyField(Currency, null=True)
-    coin_ticker = peewee.CharField(max_length=10)
-    coin_base = peewee.CharField(max_length=10)
-    coin_name = peewee.CharField(max_length=15)
-    coin_pair = peewee.CharField(max_length=15)
-    coin_active = peewee.CharField(max_length=8)
-    coin_created = peewee.DateTimeField()
-    coin_logo = peewee.CharField()
+    coin_ticker = peewee.CharField(null=True)
+    coin_base = peewee.CharField(null=True)
+    coin_name = peewee.CharField(null=True)
+    coin_pair = peewee.CharField(null=True)
+    coin_active = peewee.CharField(null=True)
+    coin_created = peewee.DateTimeField(null=True)
+    coin_logo = peewee.CharField(null=True)
 
 
     def __str__(self):
