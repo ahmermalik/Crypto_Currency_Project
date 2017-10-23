@@ -34,15 +34,8 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
-        # if user already logged in, redirects to their dashboard
-        # self.current_user calls the get_current_user function
-        # inherited from the TemplateHandler
-        if self.current_user:
-            # Retrieve user's cookie, which has their unique id number
-            user_cookie = self.current_user
-            # Redirect to user's dashboard
-            return self.redirect('/dashboard/{}'.format(int(user_cookie)))
-        self.render_template("index.html", {})
+        currencies = Market.select().order_by(Currency.volume).limit(6)
+        self.render_template("index.html", {'currencies': currencies})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
