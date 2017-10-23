@@ -10,10 +10,6 @@ market_url = "https://bittrex.com/api/v1.1/public/getmarkets"
 
 
 def market_update(currency):
-    print("Inside market_update function")
-    print(currency)
-    print(currency.id, "ID")
-    print(currency.coin_pair, "COIN NAME")
     market_response = requests.request("GET", market_url).json()['result']
     isFound = False
     for item in market_response:
@@ -59,7 +55,6 @@ def currency_update():
             currency = Currency.select().where(Currency.coin_pair == coin_pair)
 
             if not currency:
-                print(coin_pair + ' has been created using the  currency update function')
                 Currency.create(coin_pair=coin_pair,
                                 day_high=day_high,
                                 day_low=day_low,
@@ -76,7 +71,6 @@ def currency_update():
                 market_update(currency)
 
             elif currency:
-                print(coin_pair + ' has been updated using the  currency update function')
                 Currency.update(day_high=day_high,
                                 day_low=day_low,
                                 volume=volume,
