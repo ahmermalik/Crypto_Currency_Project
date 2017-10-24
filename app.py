@@ -121,25 +121,24 @@ class DashboardHandler(TemplateHandler):
         names = self.currency_names()
         # get user's portfolio based off of slug in url
         # the slug in the URL is their unique ID number
-
-        # Check UserCurrency table for all user_id that is same as slug
-
-        # If UseCurrency has any results, display their preferences
-
-        # if UserCurrency has no results, display random currencies at first
+        loggedInUser = User.select().where(User.id == slug).get()
+        userMarkets = UserCurrency.select().where(UserCurrency.user_id == loggedInUser.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+
         # set bitcoin as variable in order to render the price on the index page.
-        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(
-            Currency.volume.desc()).limit(6)
-        self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin, 'names': names})
+        if not userMarkets:
+            markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
+            return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+        return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
         coin = self.get_body_argument('ticker_symbol')
+        if ticker_symbol =
         querystring = {"market": "btc-" + coin}
         response = requests.post(url, params=querystring)
         self.render_template("dashboard.html", {'data': response.json()})
-        return self.render_template("dashboard.html", {})
+        return self.render_template("dashboard.html", {})       
 
     def currency_names(self):
         currencies = []
@@ -147,9 +146,7 @@ class DashboardHandler(TemplateHandler):
         for market in markets:
             currencies.append(market.coin_name)
             currencies.append(market.coin_pair)
-            print(market.coin_name)
         return currencies
-
 
 
 
@@ -178,7 +175,7 @@ def make_app():
         (r"/dashboard/(.*)", DashboardHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
-        tornado.web.StaticFileHandler, {'path': 'static'}),
+         tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
 
 if __name__ == "__main__":
