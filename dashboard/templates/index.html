@@ -35,14 +35,9 @@
             </ul>
             <div class="card-block-bottom">
                 <br> <!--do a padding instead of break-->
-
                 <!--where modal begins-->
-
-
                 <a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
                    data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Spread</a>
-
-
                 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
                      aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -53,11 +48,6 @@
                                 <h4 class="modal-title" id="myModalLabel">Spread</h4>
                             </div>
                             <div class="modal-body" id="modal-iframe">
-                                <!--<h3>This is where Jinja will render the data</h3>-->
-
-
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -67,7 +57,6 @@
                     </div>
 
                 </div>
-
                 <!--where modal ends-->
             </div>
         </div>

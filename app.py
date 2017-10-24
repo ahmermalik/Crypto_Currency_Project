@@ -22,6 +22,8 @@ ENV = Environment(
 PORT = int(os.environ.get('PORT', '8080'))
 
 
+
+
 class TemplateHandler(tornado.web.RequestHandler):
     def render_template(self, tpl, context):
         template = ENV.get_template(tpl)
@@ -48,6 +50,8 @@ class MainHandler(TemplateHandler):
         querystring = {"market": "btc-" + coin}
         response = requests.post(url, params=querystring)
         self.render_template("index.html", {'data': response.json()})
+
+
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -120,10 +124,21 @@ class DashboardHandler(TemplateHandler):
         loggedInUser = User.select().where(User.id == slug).get()
         userMarkets = UserCurrency.select().where(UserCurrency.user_id == loggedInUser.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
+
+        # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
             markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
             return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
         return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        if ticker_symbol =
+        querystring = {"market": "btc-" + coin}
+        response = requests.post(url, params=querystring)
+        self.render_template("dashboard.html", {'data': response.json()})
+        return self.render_template("dashboard.html", {})       
 
     def currency_names(self):
         currencies = []
@@ -133,6 +148,16 @@ class DashboardHandler(TemplateHandler):
             currencies.append(market.coin_pair)
         return currencies
 
+
+
+
+
+class TableHandler (TemplateHandler):
+    def get (self, ticker):
+        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market=BTC-{}&type=both'.format(ticker))
+
+        results = response.json()['result']
+        return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
 settings = {
     "autoreload": True,
@@ -148,6 +173,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard/(.*)", DashboardHandler),
+        (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
