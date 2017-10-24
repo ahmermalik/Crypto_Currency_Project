@@ -131,15 +131,6 @@ class DashboardHandler(TemplateHandler):
             return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
         return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
-    def post(self):
-        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
-        coin = self.get_body_argument('ticker_symbol')
-        if ticker_symbol =
-        querystring = {"market": "btc-" + coin}
-        response = requests.post(url, params=querystring)
-        self.render_template("dashboard.html", {'data': response.json()})
-        return self.render_template("dashboard.html", {})       
-
     def currency_names(self):
         currencies = []
         markets = Market.select()
