@@ -122,14 +122,10 @@ class DashboardHandler(TemplateHandler):
         # If UseCurrency has any results, display their preferences
 
         # if UserCurrency has no results, display random currencies at first
-        return self.render_template("dashboard.html", {})
-
-
-class PageHandler(TemplateHandler):
-    def get(self, page):
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
-        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
+        markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(
+            Currency.volume.desc()).limit(6)
         self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin})
 
     def post(self):
@@ -138,6 +134,7 @@ class PageHandler(TemplateHandler):
         querystring = {"market": "btc-" + coin}
         response = requests.post(url, params=querystring)
         self.render_template("dashboard.html", {'data': response.json()})
+        return self.render_template("dashboard.html", {})
 
 
 settings = {
@@ -154,7 +151,6 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard/(.*)", DashboardHandler),
-        (r"/test/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
