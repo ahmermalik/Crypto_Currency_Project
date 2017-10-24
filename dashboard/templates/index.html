@@ -40,6 +40,7 @@
 
 
                 <a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
+                   data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Spread</a>
                    data-target="#largeModal">Spread</a>
 
 
@@ -52,48 +53,10 @@
                                         aria-hidden="true">&times;</button>
                                 <h4 class="modal-title" id="myModalLabel">Spread</h4>
                             </div>
+
+                            <div class="modal-body" id="modal-iframe">
                             <div class="modal-body">
                                 <!--<h3>This is where Jinja will render the data</h3>-->
-
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <div class="row">
-                                    <div class="col-md-6 modal-subheader">Bid
-                                         </div>
-                                    <div class="col-md-6 modal-subheader">Ask
-                                         </div>
-                                            </div>
-
-                                        <tr>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">{{"%.10f"|format(market.currency.ask_price)}}</th>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">{{"%.10f"|format(market.currency.ask_price)}}</th>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">{{"%.10f"|format(market.currency.ask_price)}}</th>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                            <td>{{"%.10f"|format(market.currency.ask_price)}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
 
                             </div>
                             <div class="modal-footer">
@@ -111,4 +74,9 @@
         {% endfor %}
     </div>
 </div>
+<script>
+    function insert_iframe (ticker) {
+        $("#modal-iframe").html(`<iframe src="/table/${ticker}" style="border: 0; width: 100%; height: 300px;"></iframe>`);
+    }
+</script>
 {% endblock %}
