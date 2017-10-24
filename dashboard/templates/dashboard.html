@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-
+{% block style %}
+<link rel="stylesheet" href="/static/css/search.css" type="text/css">
+{% endblock %}
 {% block search %}
 <div id="bloodhound">
-  <input class="typeahead" type="text" placeholder="Enter the crypto currency">
+  <input class="typeahead form-control" type="text" placeholder="Enter the currency">
 </div>
 {% endblock %}
 
