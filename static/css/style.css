@@ -6,7 +6,6 @@ html, body {
 }
 
 .header {
-  /*height: 12vh;*/
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -62,15 +61,4 @@ html, body {
 
 .expose:hover {
     background:#fff!important;
-}
-
-.modal-subheader{
-    text-align: center;
-    font-weight: 1900;
-
-}
-
-.data-container{
-
-    text-align: right;
 }
