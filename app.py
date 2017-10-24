@@ -56,17 +56,14 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         # Example URL:
         # http://example.com/login?code=4/GdQlpUVhfTvV6tReFLG6q9czdTd32NWn3wzC90dwlTc
         if self.get_argument('code', False):
-            print(self.get_argument('code', False))
             # Exchanges the authorization `code` for an access token
             access = yield self.get_authenticated_user(
                 redirect_uri='http://localhost:8080/login',
                 code=self.get_argument('code'))
-            print(access, "ACCESS")
             # After obtaining an access token, that token can be used to gain access to user info
             user = yield self.oauth2_request(
                 "https://www.googleapis.com/oauth2/v1/userinfo",
                 access_token=access["access_token"])
-            print(user, "USER")
             # Retrieve user information
             email = user["email"]
             fname = user["given_name"]
