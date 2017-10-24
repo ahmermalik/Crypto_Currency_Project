@@ -62,3 +62,17 @@ html, body {
 .expose:hover {
     background:#fff!important;
 }
+
+
+.table td, .table th {
+    font-size: 0.1rem !important;
+    padding: 6px !important;
+}
+
+
+@media(min-width:768px) {
+    .table td, .table th {
+        font-size: 1rem !important;
+    padding: 12px;
+    }
+}
