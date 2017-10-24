@@ -42,12 +42,12 @@ class MainHandler(TemplateHandler):
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
         return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "loggedInUser": loggedInUser})
 
-    # def post(self):
-    #     url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
-    #     coin = self.get_body_argument('ticker_symbol')
-    #     querystring = {"market": "btc-" + coin}
-    #     response = requests.post(url, params=querystring)
-    #     self.render_template("index.html", {'data': response.json()})
+    def post(self):
+        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
+        coin = self.get_body_argument('ticker_symbol')
+        querystring = {"market": "btc-" + coin}
+        response = requests.post(url, params=querystring)
+        self.render_template("index.html", {'data': response.json()})
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -114,17 +114,24 @@ class DashboardHandler(TemplateHandler):
     # redirected to login_url in application setting
     @tornado.web.authenticated
     def get(self, slug):
+        names = self.currency_names()
         # get user's portfolio based off of slug in url
         # the slug in the URL is their unique ID number
         loggedInUser = User.select().where(User.id == slug).get()
         userMarkets = UserCurrency.select().where(UserCurrency.user_id == loggedInUser.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
-        for user in userMarkets:
-            print(user.market.coin_pair)
         if not userMarkets:
             markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-            return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets})
-        return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets})
+            return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+        return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+
+    def currency_names(self):
+        currencies = []
+        markets = Market.select()
+        for market in markets:
+            currencies.append(market.coin_name)
+            currencies.append(market.coin_pair)
+        return currencies
 
 
 settings = {
