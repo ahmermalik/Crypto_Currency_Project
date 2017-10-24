@@ -36,11 +36,10 @@ class MainHandler(TemplateHandler):
     def get(self):
         loggedInUser = False
         if self.current_user:
-            loggedInUser = True
+            loggedInUser = int(self.current_user)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-        # Checks to see if user is logged in
         return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "loggedInUser": loggedInUser})
 
     def post(self):
@@ -123,6 +122,8 @@ class DashboardHandler(TemplateHandler):
         # If UseCurrency has any results, display their preferences
 
         # if UserCurrency has no results, display random currencies at first
+        return self.render_template("dashboard.html", {})
+
 
 class PageHandler(TemplateHandler):
     def get(self, page):

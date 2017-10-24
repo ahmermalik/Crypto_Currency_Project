@@ -33,7 +33,7 @@
           {% if not loggedInUser %}
             <a class="btn btn-primary" href="/login">Login</a>
           {% else %}
-            <a class="btn btn-success" href="/portfolio">Portfolio</a>
+            <a class="btn btn-success" href="/dashboard/{{loggedInUser}}">Portfolio</a>
             <a class="btn btn-danger" href="/logout">Logout</a>
           {% endif %}
         </div>
