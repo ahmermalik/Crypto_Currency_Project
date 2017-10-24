@@ -36,10 +36,23 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Advanced</h4>
+        <h4 class="modal-title" id="myModalLabel">Bid Ask Spread</h4>
       </div>
       <div class="modal-body">
-        <h3>This is where Jinja will render the data</h3>
+             <!--<h3>This is where Jinja will render the data</h3>-->
+        <div class="row">
+            <div class="col-md-6">
+              Bid
+              {{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}{{"%.10f"|format(market.currency.day_high)}}
+            </div>
+            <div class="col-md-6">
+              Ask
+               {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}} {{"%.10f"|format(market.currency.day_low)}}
+            </div>
+          </div>
+
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -47,6 +60,7 @@
       </div>
     </div>
   </div>
+
 </div>
           <!--where modal ends-->
       </div>
