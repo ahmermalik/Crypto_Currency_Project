@@ -19,46 +19,25 @@
 <body>
   <div class="container">
     <div class="row header mx-auto">
-
-      <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-faded header_title"> -->
-        <!-- <nav class="header_title"> -->
-
-          <!-- <div class="navbar-brand col-lg-4 col-md-6 col-xs-12"> -->
-          <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 header_logo"> -->
-            <img src="static/images/header_logo.png" alt="Cryptotistic" class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_logo">
-          <!-- </div> -->
-
-
+      <img src="static/images/header_logo.png" alt="Cryptotistic" class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_logo">
           <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 my-3 header_search">
             <div class="cntr">
-      	       <div class="cntr-innr">
-      	          <form class="search" action="" method="post" for="inpt_search" >
-      			          <p> <input id="inpt_search" name = "ticker_symbol" value="" type="text" /> </p>
-      		        </form>
-      	       </div>
+              <div class="cntr-innr">
+                <form class="search" action="" method="post" for="inpt_search" >
+                    <p> <input id="inpt_search" name = "ticker_symbol" value="" type="text" /> </p>
+                </form>
+              </div>
             </div>
-          </div>
-          <!-- <button class="navbar-toggler col-lg-4 col-md-12 col-xs-12" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button> -->
-
-          <!-- <div class="navbar-collapse collapse col-lg-4 col-md-12 col-xs-12"> -->
-              <!-- <ul class="navbar-nav"> -->
-                  <!-- <li class="nav-item"> -->
-                  <!-- </li> -->
-                  <!-- <li class="nav-item"> -->
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_userauth">
-                        <a class="btn btn-primary" href="/login">Login</a>
-                    <!-- </div> -->
-                  <!-- </li> -->
-                  <!-- <li class="nav-item"> -->
-                    <!-- <div class="col-lg-2 col-md-6 col-xs-6 header_userauth"> -->
-                        <a class="btn btn-danger" href="/logout">Logout</a>
-                    </div>
-                  <!-- </li>
-              </ul> -->
-          </div>
-      <!-- </nav> -->
+        </div>
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_userauth">
+          {% if not loggedInUser %}
+            <a class="btn btn-primary" href="/login">Login</a>
+          {% else %}
+            <a class="btn btn-success" href="/portfolio">Portfolio</a>
+            <a class="btn btn-danger" href="/logout">Logout</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
 </div>
 

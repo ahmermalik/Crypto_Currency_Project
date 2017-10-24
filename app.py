@@ -34,10 +34,14 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
+        loggedInUser = False
+        if self.current_user:
+            loggedInUser = True
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-        self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin})
+        # Checks to see if user is logged in
+        return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "loggedInUser": loggedInUser})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
@@ -104,21 +108,21 @@ class LogoutHandler(TemplateHandler):
         self.clear_cookie('crypto_user')
         return self.redirect('/')
 
-# # Create user dashboard handler
-# class DashboardHandler(TemplateHandler):
-#     # If a request goes to a method with this decorator,
-#     # and the user is not logged in, they will be
-#     # redirected to login_url in application setting
-#     @tornado.web.authenticated
-#     def get(self, slug):
-#         # get user's portfolio based off of slug in url
-#         # the slug in the URL is their unique ID number
+# Create user dashboard handler
+class DashboardHandler(TemplateHandler):
+    # If a request goes to a method with this decorator,
+    # and the user is not logged in, they will be
+    # redirected to login_url in application setting
+    @tornado.web.authenticated
+    def get(self, slug):
+        # get user's portfolio based off of slug in url
+        # the slug in the URL is their unique ID number
 
-#         # Check UserCurrency table for all user_id that is same as slug
+        # Check UserCurrency table for all user_id that is same as slug
 
-#         # If UseCurrency has any results, display their preferences
+        # If UseCurrency has any results, display their preferences
 
-#         # if UserCurrency has no results, display random currencies at first
+        # if UserCurrency has no results, display random currencies at first
 
 class PageHandler(TemplateHandler):
     def get(self, page):
@@ -148,7 +152,7 @@ def make_app():
         (r"/", MainHandler),
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
-        # (r"/dashboard/(.*)", DashboardHandler),
+        (r"/dashboard/(.*)", DashboardHandler),
         (r"/test/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
