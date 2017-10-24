@@ -6,25 +6,16 @@ html, body {
 }
 
 .header {
-  height: 12vh;
+  /*height: 12vh;*/
   align-items: center;
   text-align: center;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  /*background-color: grey;*/
-  /*background-image: url("../images/header.jpg");*/
-  /*background-repeat: no-repeat;
-  background-position: center;*/
-
+  justify-content: center;
 }
 
-/*.header_title {
-  color: white !important;
-  text-shadow: 0 0 3px white, 0 0 10px blue;
-}*/
 
 .header_logo {
   width: 60%;
+  margin-top: 5px;
 }
 
 .card {
