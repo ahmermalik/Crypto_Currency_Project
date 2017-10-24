@@ -41,6 +41,7 @@
 
                 <a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
                    data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Spread</a>
+                   data-target="#largeModal">Spread</a>
 
 
                 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
@@ -52,7 +53,10 @@
                                         aria-hidden="true">&times;</button>
                                 <h4 class="modal-title" id="myModalLabel">Spread</h4>
                             </div>
+
                             <div class="modal-body" id="modal-iframe">
+                            <div class="modal-body">
+                                <!--<h3>This is where Jinja will render the data</h3>-->
 
                             </div>
                             <div class="modal-footer">
