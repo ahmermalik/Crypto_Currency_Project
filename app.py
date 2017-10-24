@@ -34,10 +34,13 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
+        loggedInUser = False
+        if self.current_user:
+            loggedInUser = int(self.current_user)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-        self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin})
+        return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "loggedInUser": loggedInUser})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
@@ -77,14 +80,14 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                             fname=fname,
                             lname=lname,
                             picture=picture).save()
-                # Get the newly created user
-                user = User.select().where(User.email == email).get()
-                # Signs and timestamps a cookie so it cannot be forged
-                # User will not have to login again as long as cookie is not tampered with or deleted
-                # Using user's unique id number as their cookie
-                self.set_secure_cookie('crypto_user', str(user.id))
-                # Redirect to user's dashbaord
-                return self.redirect('/dashboard/{}'.format(user.id))
+            # Get the user that is signing in
+            user = User.select().where(User.email == email).get()
+            # Signs and timestamps a cookie so it cannot be forged
+            # User will not have to login again as long as cookie is not tampered with or deleted
+            # Using user's unique id number as their cookie
+            self.set_secure_cookie('crypto_user', str(user.id))
+            # Redirect to user's dashbaord
+            return self.redirect('/dashboard/{}'.format(user.id))
 
         # This portion actually gets triggered first upon a person's first login
         # An authorization `code` is returned from Google
@@ -97,27 +100,30 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                 response_type='code',
                 extra_params={'approval_prompt': 'auto'})
 
+
 class LogoutHandler(TemplateHandler):
     """Logout handler"""
     def get(self):
         self.clear_cookie('crypto_user')
         return self.redirect('/')
 
-# # Create user dashboard handler
-# class DashboardHandler(TemplateHandler):
-#     # If a request goes to a method with this decorator,
-#     # and the user is not logged in, they will be
-#     # redirected to login_url in application setting
-#     @tornado.web.authenticated
-#     def get(self, slug):
-#         # get user's portfolio based off of slug in url
-#         # the slug in the URL is their unique ID number
+# Create user dashboard handler
+class DashboardHandler(TemplateHandler):
+    # If a request goes to a method with this decorator,
+    # and the user is not logged in, they will be
+    # redirected to login_url in application setting
+    @tornado.web.authenticated
+    def get(self, slug):
+        # get user's portfolio based off of slug in url
+        # the slug in the URL is their unique ID number
 
-#         # Check UserCurrency table for all user_id that is same as slug
+        # Check UserCurrency table for all user_id that is same as slug
 
-#         # If UseCurrency has any results, display their preferences
+        # If UseCurrency has any results, display their preferences
 
-#         # if UserCurrency has no results, display random currencies at first
+        # if UserCurrency has no results, display random currencies at first
+        return self.render_template("dashboard.html", {})
+
 
 class PageHandler(TemplateHandler):
     def get(self, page):
@@ -147,7 +153,7 @@ def make_app():
         (r"/", MainHandler),
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
-        # (r"/dashboard/(.*)", DashboardHandler),
+        (r"/dashboard/(.*)", DashboardHandler),
         (r"/test/(.*)", PageHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
