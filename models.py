@@ -65,4 +65,5 @@ class Market(BaseModel):
 class UserCurrency(BaseModel):
     """This table creates relations between user & currency classes"""
     user = peewee.ForeignKeyField(User, null=True)
+    market = peewee.ForeignKeyField(Market, null=True)
     currency = peewee.ForeignKeyField(Currency, null=True)
