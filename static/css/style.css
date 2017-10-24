@@ -63,3 +63,14 @@ html, body {
 .expose:hover {
     background:#fff!important;
 }
+
+.modal-subheader{
+    text-align: center;
+    font-weight: 1900;
+
+}
+
+.data-container{
+
+    text-align: right;
+}
