@@ -116,13 +116,14 @@ class DashboardHandler(TemplateHandler):
     def get(self, slug):
         # get user's portfolio based off of slug in url
         # the slug in the URL is their unique ID number
+        loggedInUser = User.select().where(User.id == slug).get()
 
         # Check UserCurrency table for all user_id that is same as slug
 
         # If UseCurrency has any results, display their preferences
 
         # if UserCurrency has no results, display random currencies at first
-        return self.render_template("dashboard.html", {})
+        return self.render_template("dashboard.html", {"loggedInUser": loggedInUser})
 
 
 class PageHandler(TemplateHandler):
