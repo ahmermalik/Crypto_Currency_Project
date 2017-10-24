@@ -9,22 +9,16 @@
   <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|VT323" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/static/css/search.css" type="text/css">
+  {% block style %}{% endblock %}
 
-  <title>Crypto Currency Dashboard</title>
+  <title>Cryptotistics</title>
 </head>
 <body>
   <div class="container">
     <div class="row header mx-auto">
       <img src="/static/images/header_logo.png" alt="Cryptotistic" class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_logo">
           <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 my-3 header_search">
-            <!-- <div class="cntr">
-              <div class="cntr-innr">
-                <form class="search" action="" method="post" for="inpt_search" >
-                    <p> <input id="inpt_search" name = "ticker_symbol" value="" type="text" /> </p>
-                </form>
-              </div>
-            </div> -->
+
             {% block search %}
             {% endblock %}
         </div>

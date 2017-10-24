@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-
+{% block style %}
+<link rel="stylesheet" href="/static/css/search.css" type="text/css">
+{% endblock %}
 {% block search %}
 <div id="bloodhound">
-  <input class="typeahead" type="text" placeholder="Enter the crypto currency">
+  <input class="typeahead form-control" type="text" placeholder="Enter the currency">
 </div>
 {% endblock %}
 
@@ -30,7 +32,7 @@
         </ul>
         <div class="card-block-bottom">
   <br>
-  
+
             <!--where modal begins-->
   <div class="container">
     <div class="row text-center">
@@ -38,7 +40,7 @@
         <a href="#" class="btn btn-lg btn-success">Add</a>
       </div>
   </div>
-  
+
   <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -79,7 +81,7 @@
             </ul>
             <div class="card-block-bottom">
       <br>
-      
+
                 <!--where modal begins-->
       <div class="container">
         <div class="row text-center">
@@ -87,7 +89,7 @@
             <a href="/market/{}".format(market.id) class="btn btn-lg btn-success">Add</a>
           </div>
       </div>
-      
+
       <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
