@@ -51,7 +51,7 @@ class MainHandler(TemplateHandler):
         response = requests.post(url, params=querystring)
         self.render_template("index.html", {'data': response.json()})
 
-  
+
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -141,6 +141,16 @@ class DashboardHandler(TemplateHandler):
         return self.render_template("dashboard.html", {})
 
 
+
+
+
+class TableHandler (TemplateHandler):
+    def get (self, ticker):
+        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market=BTC-{}&type=both'.format(ticker))
+
+        results = response.json()['result']
+        return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
+
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
@@ -155,6 +165,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard/(.*)", DashboardHandler),
+        (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
