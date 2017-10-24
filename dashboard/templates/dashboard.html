@@ -3,8 +3,11 @@
 <link rel="stylesheet" href="/static/css/search.css" type="text/css">
 {% endblock %}
 {% block search %}
-<div id="bloodhound">
-  <input class="typeahead form-control" type="text" placeholder="Enter the currency">
+<div id="bloodhound" class="input-group">
+  <input class="typeahead form-control search-box" type="text" placeholder="Enter the currency">
+  <span class="input-group-btn">
+      <button class="btn btn-secondary" type="button">Go!</button>
+  </span>
 </div>
 {% endblock %}
 
