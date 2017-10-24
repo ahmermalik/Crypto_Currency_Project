@@ -56,14 +56,17 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         # Example URL:
         # http://example.com/login?code=4/GdQlpUVhfTvV6tReFLG6q9czdTd32NWn3wzC90dwlTc
         if self.get_argument('code', False):
+            print(self.get_argument('code', False))
             # Exchanges the authorization `code` for an access token
             access = yield self.get_authenticated_user(
                 redirect_uri='http://localhost:8080/login',
                 code=self.get_argument('code'))
+            print(access, "ACCESS")
             # After obtaining an access token, that token can be used to gain access to user info
             user = yield self.oauth2_request(
                 "https://www.googleapis.com/oauth2/v1/userinfo",
                 access_token=access["access_token"])
+            print(user, "USER")
             # Retrieve user information
             email = user["email"]
             fname = user["given_name"]
@@ -77,14 +80,14 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                             fname=fname,
                             lname=lname,
                             picture=picture).save()
-                # Get the newly created user
-                user = User.select().where(User.email == email).get()
-                # Signs and timestamps a cookie so it cannot be forged
-                # User will not have to login again as long as cookie is not tampered with or deleted
-                # Using user's unique id number as their cookie
-                self.set_secure_cookie('crypto_user', str(user.id))
-                # Redirect to user's dashbaord
-                return self.redirect('/dashboard/{}'.format(user.id))
+            # Get the user that is signing in
+            user = User.select().where(User.email == email).get()
+            # Signs and timestamps a cookie so it cannot be forged
+            # User will not have to login again as long as cookie is not tampered with or deleted
+            # Using user's unique id number as their cookie
+            self.set_secure_cookie('crypto_user', str(user.id))
+            # Redirect to user's dashbaord
+            return self.redirect('/dashboard/{}'.format(user.id))
 
         # This portion actually gets triggered first upon a person's first login
         # An authorization `code` is returned from Google
@@ -96,6 +99,7 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
                 scope=['profile', 'email'],
                 response_type='code',
                 extra_params={'approval_prompt': 'auto'})
+
 
 class LogoutHandler(TemplateHandler):
     """Logout handler"""
