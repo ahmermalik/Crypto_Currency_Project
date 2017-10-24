@@ -114,6 +114,7 @@ class DashboardHandler(TemplateHandler):
     # redirected to login_url in application setting
     @tornado.web.authenticated
     def get(self, slug):
+        names = self.currency_names()
         # get user's portfolio based off of slug in url
         # the slug in the URL is their unique ID number
 
@@ -126,7 +127,7 @@ class DashboardHandler(TemplateHandler):
         # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(
             Currency.volume.desc()).limit(6)
-        self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin})
+        self.render_template("dashboard.html", {'markets': markets, "bitcoin": bitcoin, 'names': names})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
@@ -135,6 +136,16 @@ class DashboardHandler(TemplateHandler):
         response = requests.post(url, params=querystring)
         self.render_template("dashboard.html", {'data': response.json()})
         return self.render_template("dashboard.html", {})
+
+    def currency_names(self):
+        currencies = []
+        markets = Market.select()
+        for market in markets:
+            currencies.append(market.coin_name)
+            currencies.append(market.coin_pair)
+            print(market.coin_name)
+        return currencies
+
 
 
 settings = {
@@ -152,7 +163,7 @@ def make_app():
         (r"/logout", LogoutHandler),
         (r"/dashboard/(.*)", DashboardHandler),
         (r"/static/(.*)",
-         tornado.web.StaticFileHandler, {'path': 'static'}),
+        tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
 
 if __name__ == "__main__":
