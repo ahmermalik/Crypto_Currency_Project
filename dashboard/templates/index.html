@@ -13,12 +13,12 @@
           <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Last Price:</strong> {{"%.10f"|format(market.currency.last_price)}}</li>
-        <li class="list-group-item"><strong>Volume:</strong> {{(market.currency.base_volume * bitcoin.last_price) | round }}</li>
-        <li class="list-group-item"><strong>24 High:</strong> {{"%.10f"|format(market.currency.day_high)}}</li>
-        <li class="list-group-item"><strong>24 Low:</strong> {{"%.10f"|format(market.currency.day_low)}}</li>
-        <li class="list-group-item"><strong>Bid:</strong> {{"%.10f"|format(market.currency.bid_price)}}</li>
-        <li class="list-group-item"><strong>Ask:</strong> {{"%.10f"|format(market.currency.ask_price)}}</li>
+        <li class="list-group-item"><strong>Last Price:</strong> <small>${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}</small><br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}</li>
+        <li class="list-group-item"><strong>Volume:</strong> </i> {{(market.currency.base_volume * bitcoin.last_price) | round }}</li>
+        <li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.day_high)}}</li>
+        <li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>  {{"%.10f"|format(market.currency.day_low)}}</li>
+        <li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.bid_price)}}</li>
+        <li class="list-group-item"><strong>Ask:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.ask_price)}}</li>
       </ul>
       <div class="card-block-bottom">
         <a href="#" class="card-link">More info</a>
