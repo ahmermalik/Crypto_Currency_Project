@@ -22,6 +22,8 @@ ENV = Environment(
 PORT = int(os.environ.get('PORT', '8080'))
 
 
+
+
 class TemplateHandler(tornado.web.RequestHandler):
     def render_template(self, tpl, context):
         template = ENV.get_template(tpl)
@@ -48,6 +50,8 @@ class MainHandler(TemplateHandler):
         querystring = {"market": "btc-" + coin}
         response = requests.post(url, params=querystring)
         self.render_template("index.html", {'data': response.json()})
+
+  
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
