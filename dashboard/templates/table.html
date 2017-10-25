@@ -13,25 +13,40 @@
 <div class ="container">
 <div class="table-responsive">
     <table class="table">
-        <div class="row">
-            <div class="col-md-6 modal-subheader">Bid
-            </div>
-            <div class="col-md-6 modal-subheader">Ask
+        <div class="row ">
+            <div class="col-md-12 modal-subheader">Bid
             </div>
         </div>
 
         <tr>
             <th>Quantity</th>
             <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in range(0, 5) %}
+        <tr>
+            <td>{{"%.1f"|format(buy[i].Quantity)}}</td>
+            <td>{{"%.10f"|format(buy[i].Rate)}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <table class="table">
+        <div class="row ">
+            <div class="col-md-12 modal-subheader">Ask
+            </div>
+        </div>
+
+        <tr>
             <th>Quantity</th>
             <th>Price</th>
         </tr>
         </thead>
         <tbody>
-        {% for i in range(0, 15) %}
+        {% for i in range(0, 5) %}
         <tr>
-            <td>{{"%.1f"|format(buy[i].Quantity)}}</td>
-            <td>{{"%.10f"|format(buy[i].Rate)}}</td>
+
             <td>{{"%.1f"|format(sell[i].Quantity)}}</td>
             <td>{{"%.10f"|format(sell[i].Rate)}}</td>
         </tr>
