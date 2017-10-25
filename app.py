@@ -54,7 +54,7 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         if self.get_argument('code', False):
             # Exchanges the authorization `code` for an access token
             access = yield self.get_authenticated_user(
-                redirect_uri='https://cryptotistics.com/login',
+                redirect_uri='https://www.cryptotistics.com/login',
                 code=self.get_argument('code'))
             # After obtaining an access token, that token can be used to gain access to user info
             user = yield self.oauth2_request(
@@ -87,7 +87,7 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         # A redirect is made to this same Loginhandler with that authorization code
         else:
             yield self.authorize_redirect(
-                redirect_uri="https://cryptotistics.com/login",
+                redirect_uri="https://www.cryptotistics.com/login",
                 client_id=self.settings['google_oauth']['key'],
                 scope=['profile', 'email'],
                 response_type='code',
