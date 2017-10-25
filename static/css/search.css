@@ -30,9 +30,8 @@
 }
 
 .tt-suggestion.tt-cursor,.tt-suggestion:hover {
-  color: #fff;
-  background-color: #0097cf;
-
+  color: black;
+  background-color: #E5E3E3;
 }
 
 .tt-suggestion p {

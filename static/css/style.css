@@ -49,7 +49,7 @@ html, body {
 }
 
 .entry-content {
-    padding:6px;
+    padding:6px; 
 }
 
 .expose {
@@ -78,7 +78,7 @@ html, body {
 }
 
 #bloodhound {
-  justify-content: center;
+  justify-content:flex-start;
 }
 
 input.search-box {
