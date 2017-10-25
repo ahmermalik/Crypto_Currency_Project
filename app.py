@@ -139,7 +139,32 @@ class DashboardHandler(TemplateHandler):
             currencies.append(market.coin_pair)
         return currencies
 
-
+class AddHandler(TemplateHandler):
+    @tornado.web.authenticated
+    def post(self, slug):
+        currencyName = self.get_body_argument("currencyName")
+        print(currencyName, "CURRENCY NAME")
+        market = Market.select().where((Market.coin_pair == currencyName) | (Market.coin_name == currencyName)).get()
+        print(market.coin_pair, "COIN NAME")
+        print(market.id, "ID")
+        markets = UserCurrency.select().where(UserCurrency.market_id == market.id)
+        print(markets, "MARKETS")
+        if not markets:
+            print("IONSIDE MARKEYTS")
+            print("Creating UserCurrency")
+            userCurr = UserCurrency.create(user_id=slug,
+                                            market_id=market.id,
+                                            currency_id=market.id)
+            userCurr.save()
+        elif markets:
+            for user in markets:
+                print(user, "USERS")
+                if user.user_id == slug:
+                    userCurr = UserCurrency.create(user_id=slug,
+                                                    market_id=market.id,
+                                                    currency_id=market.id)
+                    userCurr.save()
+        return self.redirect("/dashboard/{}".format(slug))
 
 
 
@@ -164,6 +189,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard/(.*)", DashboardHandler),
+        (r"/add/(.*)", AddHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
