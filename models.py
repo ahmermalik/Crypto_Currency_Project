@@ -58,8 +58,8 @@ class Market(BaseModel):
     coin_logo = peewee.CharField(null=True)
 
 
-    def __str__(self):
-        return self.coin_ticker
+    # def __str__(self):
+    #     return self.coin_ticker
 
 
 class UserCurrency(BaseModel):

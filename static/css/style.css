@@ -84,3 +84,7 @@ html, body {
 input.search-box {
   width: auto !important;
 }
+
+.search-box-form {
+  display: flex;
+}
