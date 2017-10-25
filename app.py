@@ -139,6 +139,7 @@ class DashboardHandler(TemplateHandler):
             currencies.append(market.coin_pair)
         return currencies
 
+
 class AddHandler(TemplateHandler):
     @tornado.web.authenticated
     def post(self, slug):
@@ -165,7 +166,6 @@ class AddHandler(TemplateHandler):
                                                     currency_id=market.id)
                     userCurr.save()
         return self.redirect("/dashboard/{}".format(slug))
-
 
 
 class TableHandler (TemplateHandler):
