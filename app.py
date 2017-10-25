@@ -50,7 +50,6 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
         # This portion gets triggered second upon a person's first login
         # The authorization `code` in the URL that was returned from Google
         # allows for this statement to be true
-        # Example URL:
         # http://example.com/login?code=4/GdQlpUVhfTvV6tReFLG6q9czdTd32NWn3wzC90dwlTc
         if self.get_argument('code', False):
             # Exchanges the authorization `code` for an access token
