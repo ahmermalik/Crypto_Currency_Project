@@ -27,13 +27,13 @@ virtualenv
 
 Recommended modules
 -------------------
-python-dotenv==0.7.1  <br>
-tornado==4.5.2
-Jinja2==2.9.6
-requests==2.18.4
-peewee==2.10.2
-markdown2==2.3.4
-psycopg2==2.7.3.1
+python-dotenv==0.7.1 <br>
+tornado==4.5.2 <br>
+Jinja2==2.9.6 <br>
+requests==2.18.4 <br>
+peewee==2.10.2 <br>
+markdown2==2.3.4 <br>
+psycopg2==2.7.3.1 <br>
 
  
 Installation
