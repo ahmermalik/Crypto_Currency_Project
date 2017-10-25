@@ -121,8 +121,8 @@ class DashboardHandler(TemplateHandler):
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
-            markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-            return self.render_template("dashboard.html", {"markets": markets, "bitcoin": bitcoin, 'names': names})
+            market = Market.select().join(Currency).where(Currency.coin_pair == "USDT-BTC").get()
+            return self.render_template("dashboard.html", {"market": market, "bitcoin": bitcoin, 'names': names})
         return self.render_template("dashboard.html", {"bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
     def currency_names(self):
