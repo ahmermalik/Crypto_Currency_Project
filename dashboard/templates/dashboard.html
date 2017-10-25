@@ -19,113 +19,126 @@
 {% endblock %}
 
 {% block  content %}
-
-
 <div class="wrapper">
-  <div class="row databox entry-content mx-3">
+  	<div class="row databox entry-content mx-3">
+		{% if userMarkets %}
+			{% for user in userMarkets %}
+			<div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
+				<div class="card-block-top">
+					<h5 class="card-title">{{user.market.coin_name}} - {{user.market.coin_pair}}</h5>
+					<img class="card-img-top" src="{{user.market.coin_logo}}" alt="{{user.market.coin_pair}}">
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item"><strong>Last Price:</strong>
+						<small>${{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}</small>
+						<br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}
+					</li>
+					<li class="list-group-item"><strong>Volume:</strong> </i> {{(user.currency.base_volume *
+						bitcoin.last_price) | round }}
+					</li>
+					<li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+						{{"%.10f"|format(user.currency.day_high)}}
+					</li>
+					<li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+						{{"%.10f"|format(user.currency.day_low)}}
+					</li>
+					<li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+						{{"%.10f"|format(user.currency.bid_price)}}
+					</li>
+					<li class="list-group-item"><strong>Ask:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+						{{"%.10f"|format(user.currency.ask_price)}}
+					</li>
+				</ul>
+				<div class="card-block-bottom">
+					<br> <!--do a padding instead of break-->
+					<!--where modal begins-->
+					<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
+						data-target="#largeModal" onclick="insert_iframe('{{ user.market.coin_ticker }}')">Spread</a>
+					<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="myModalLabel">Spread</h4>
+								</div>
+								<div class="modal-body" id="modal-iframe">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				<!--where modal ends-->
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		<div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
+			<div class="card-block-top">
+				<h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
+				<img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
+			</div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item"><strong>Last Price:</strong>
+					<small>${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}</small>
+					<br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}
+				</li>
+				<li class="list-group-item"><strong>Volume:</strong> </i> {{(market.currency.base_volume *
+					bitcoin.last_price) | round }}
+				</li>
+				<li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					{{"%.10f"|format(market.currency.day_high)}}
+				</li>
+				<li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					{{"%.10f"|format(market.currency.day_low)}}
+				</li>
+				<li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					{{"%.10f"|format(market.currency.bid_price)}}
+				</li>
+				<li class="list-group-item"><strong>Ask:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					{{"%.10f"|format(market.currency.ask_price)}}
+				</li>
+			</ul>
+			<div class="card-block-bottom">
+				<br> <!--do a padding instead of break-->
+				<!--where modal begins-->
+				<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
+					data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Spread</a>
+				<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
+					aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Spread</h4>
+							</div>
+							<div class="modal-body" id="modal-iframe"></div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			<!--where modal ends-->
+			</div>
+		</div>
+		{% endif %}
+  	</div>
+</div>
 
-    <!-- User Preferences -->
-    {% if userMarkets %}
-      {% for user in userMarkets %}
-      <div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
-        <div class="card-block-top">
-            <h5 class="card-title">{{user.market.coin_name}} - {{user.market.coin_pair}}</h5>
-            <img class="card-img-top" src="{{user.market.coin_logo}}" alt="{{user.market.coin_pair}}">
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Last Price:</strong> <small>${{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}</small><br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}</li>
-          <li class="list-group-item"><strong>Volume:</strong> </i> {{(user.currency.base_volume * bitcoin.last_price) | round }}</li>
-          <li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.day_high)}}</li>
-          <li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>  {{"%.10f"|format(user.currency.day_low)}}</li>
-          <li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.bid_price)}}</li>
-          <li class="list-group-item"><strong>Ask:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.ask_price)}}</li>
-        </ul>
-        <div class="card-block-bottom">
-  <br>
-
-            <!--where modal begins-->
-  <div class="container">
-    <div class="row text-center">
-        <a href="#" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#largeModal">Info</a>
-        <a href="#" class="btn btn-lg btn-success">Add</a>
-      </div>
-  </div>
-
-  <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Advanced</h4>
-        </div>
-        <div class="modal-body">
-          <h3>This is where Jinja will render the data</h3>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-        </div>
-      </div>
-    </div>
-  </div>
-            <!--where modal ends-->
-        </div>
-      </div>
-        {% endfor %}
-
-    {% else %}
-      <!-- If no preferences set -->
-          {% for market in markets %}
-          <div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
-            <div class="card-block-top">
-                <h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
-                <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>Last Price:</strong> <small>${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}</small><br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}</li>
-              <li class="list-group-item"><strong>Volume:</strong> </i> {{(market.currency.base_volume * bitcoin.last_price) | round }}</li>
-              <li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.day_high)}}</li>
-              <li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>  {{"%.10f"|format(market.currency.day_low)}}</li>
-              <li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.bid_price)}}</li>
-              <li class="list-group-item"><strong>Ask:</strong> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.ask_price)}}</li>
-            </ul>
-            <div class="card-block-bottom">
-      <br>
-
-                <!--where modal begins-->
-      <div class="container">
-        <div class="row text-center">
-            <a href="#" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#largeModal">Info</a>
-            <a href="/market/{}".format(market.id) class="btn btn-lg btn-success">Add</a>
-          </div>
-      </div>
-
-      <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="myModalLabel">Advanced</h4>
-            </div>
-            <div class="modal-body">
-              <h3>This is where Jinja will render the data</h3>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-          </div>
-        </div>
-      </div>
-                <!--where modal ends-->
-            </div>
-          </div>
-            {% endfor %}
-          {% endif %}
-        </div>
-      </div>
-
+<script>
+  function insert_iframe (ticker) {
+      $("#modal-iframe").html(`<iframe src="/table/${ticker}" style="border: 0; width: 100%; height: 300px;"></iframe>`);
+  }
+</script>
 {% endblock %}
+
 
 {% block script %}
 <script src="/static/js/typeahead.bundle.min.js"></script>
