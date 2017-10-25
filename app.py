@@ -114,10 +114,10 @@ class DashboardHandler(TemplateHandler):
     # redirected to login_url in application setting
     @tornado.web.authenticated
     def get(self):
-        user = int(self.current_user)
+        user = User.select().where(User.id == int(self.current_user)).get()
         names = self.currency_names()
         # get user's portfolio based off of slug in url
-        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user)
+        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
