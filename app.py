@@ -161,8 +161,8 @@ class AddHandler(TemplateHandler):
 
 class TableHandler (TemplateHandler):
     def get (self, ticker):
-        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market=BTC-{}&type=both'.format(ticker))
-
+        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market={}&type=both'.format(ticker))
+        print(response.json())
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
