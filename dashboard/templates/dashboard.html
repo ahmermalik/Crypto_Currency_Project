@@ -89,7 +89,11 @@
 		<div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
 			<div class="card-block-top">
 				<h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
+        {% if market.coin_logo == None %}
+        <img class="card-img-top" src="/static/images/nologo.png" alt="{{market.coin_pair}}">
+        {% else %}
 				<img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
+        {% endif %}
 			</div>
 			<ul class="list-group list-group-flush">
 				<li class="list-group-item"><strong>Last Price:</strong>

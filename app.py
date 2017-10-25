@@ -162,7 +162,6 @@ class AddHandler(TemplateHandler):
 class TableHandler (TemplateHandler):
     def get (self, ticker):
         response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market={}&type=both'.format(ticker))
-        print(response.json())
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
@@ -174,9 +173,7 @@ class DeleteHandler(TemplateHandler):
 
     @tornado.web.authenticated
     def post(self, slug):
-        print(slug)
         userID = int(self.current_user)
-        print(userID)
         UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
         self.redirect("/dashboard")
 
