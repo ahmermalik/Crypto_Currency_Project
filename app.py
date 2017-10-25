@@ -42,12 +42,6 @@ class MainHandler(TemplateHandler):
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
         return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "user": user})
 
-    def post(self):
-        url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
-        coin = self.get_body_argument('ticker_symbol')
-        querystring = {"market": "btc-" + coin}
-        response = requests.post(url, params=querystring)
-        self.render_template("index.html", {'data': response.json()})
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -166,6 +160,14 @@ class TableHandler (TemplateHandler):
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
 
+class LandingHandler (TemplateHandler):
+    def get(self):
+        user = int(self.current_user)
+        if user:
+            self.redirect("/dashboard")
+        else:
+            self.render_template("landing.html")
+
 class DeleteHandler(TemplateHandler):
     @tornado.web.authenticated
     def get(self, slug):
@@ -176,9 +178,7 @@ class DeleteHandler(TemplateHandler):
         userID = int(self.current_user)
         UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
         self.redirect("/dashboard")
-
-
-
+        
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
@@ -192,6 +192,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard", DashboardHandler),
+        (r"/welcome", LandingHandler),
         (r"/add", AddHandler),
         (r"/delete/(.*)", DeleteHandler),
         (r"/table/(.*)", TableHandler),
