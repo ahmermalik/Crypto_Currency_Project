@@ -141,8 +141,8 @@ class AddHandler(TemplateHandler):
         markets = UserCurrency.select().where(UserCurrency.market_id == market.id)
         if not markets:
             userCurr = UserCurrency.create(user_id=userID,
-                                            market_id=market.id,
-                                            currency_id=market.id)
+                                           market_id=market.id,
+                                           currency_id=market.id)
             userCurr.save()
         elif markets:
             for user in markets:
