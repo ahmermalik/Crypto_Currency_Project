@@ -162,11 +162,10 @@ class TableHandler (TemplateHandler):
 
 class LandingHandler (TemplateHandler):
     def get(self):
-        user = int(self.current_user)
+        user = self.current_user
         if user:
-            self.redirect("/dashboard")
-        else:
-            self.render_template("landing.html")
+            return self.redirect("/dashboard")
+        return self.render_template("landing.html", {})
 
 class DeleteHandler(TemplateHandler):
     @tornado.web.authenticated
