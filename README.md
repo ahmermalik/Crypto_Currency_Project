@@ -20,9 +20,9 @@ of the project was to display our full stack capabilities utilizing several tech
 
 Requirements
 ------------
-Bootstrap 4
-pip
-virtualenv
+Bootstrap 4 <br>
+pip <br>
+virtualenv <br>
 
 
 Recommended modules
@@ -38,8 +38,8 @@ psycopg2==2.7.3.1 <br>
  
 Installation
 ------------
-pip install -r requirements.txt
-python app.py
+pip install -r requirements.txt <br>
+python app.py <br>
 
 
 Maintainers
