@@ -31,6 +31,11 @@ html, body {
 .card-block-bottom {
    margin-top: 0.7rem;
 }
+
+.delete-btn {
+  display: inline-block;
+}
+
 .card-title {
   flex: auto;
 }
@@ -102,8 +107,32 @@ input.search-box {
 }
 
 
+/*test*/
+
+@media (max-width: 767px) {
+
+  .header_logo, .header_userauth, .header_search{
+    margin: 1em;
+   }
+ }
+
+ @media (min-width: 768px) and (max-width: 959px) {
+
+   .header_logo, .header_userauth, .header_search{
+     margin: 1em;
+   }
+ }
+
+ @media (min-width: 960px) and (max-width: 991px) {
+
+   .header_logo, .header_userauth, .header_search{
+     margin: 1em;
+   }
+ }
+
 .modal-subheader {
 
 text-align: center !important;
 
 }
+
