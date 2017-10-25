@@ -70,9 +70,11 @@
         {% endfor %}
     </div>
 </div>
+
 <script>
     function insert_iframe (ticker) {
         $("#modal-iframe").html(`<iframe src="/table/${ticker}" style="border: 0; width: 100%; height: 300px;"></iframe>`);
     }
 </script>
+
 {% endblock %}
