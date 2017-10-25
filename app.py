@@ -114,16 +114,16 @@ class DashboardHandler(TemplateHandler):
     # redirected to login_url in application setting
     @tornado.web.authenticated
     def get(self):
-        user = int(self.current_user)
+        user = User.select().where(User.id == int(self.current_user)).get()
         names = self.currency_names()
         # get user's portfolio based off of slug in url
-        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user)
+        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
             market = Market.select().join(Currency).where(Currency.coin_pair == "USDT-BTC").get()
-            return self.render_template("dashboard.html", {"market": market, "bitcoin": bitcoin, 'names': names})
-        return self.render_template("dashboard.html", {"bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+            return self.render_template("dashboard.html", {"user": user, "market": market, "bitcoin": bitcoin, 'names': names})
+        return self.render_template("dashboard.html", {"user": user, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
     def currency_names(self):
         currencies = []
@@ -152,7 +152,7 @@ class AddHandler(TemplateHandler):
             userCurr.save()
         elif markets:
             for user in markets:
-                if user.user_id == slug:
+                if user.user_id != userID:
                     userCurr = UserCurrency.create(user_id=userID,
                                                     market_id=market.id,
                                                     currency_id=market.id)
