@@ -72,7 +72,7 @@ html, body {
 
 @media(min-width:768px) {
     .table td, .table th {
-        font-size: 1rem !important;
+        font-size: 4rem !important;
     padding: 12px;
     }
 }
