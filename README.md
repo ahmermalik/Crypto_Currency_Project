@@ -27,7 +27,7 @@ virtualenv
 
 Recommended modules
 -------------------
-python-dotenv==0.7.1
+python-dotenv==0.7.1  \n
 tornado==4.5.2
 Jinja2==2.9.6
 requests==2.18.4
