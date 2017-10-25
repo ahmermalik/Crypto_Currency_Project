@@ -92,4 +92,4 @@ input.search-box {
 .search-box-form {
   display: flex;
 }
-.twitter-typeahead, .tt-hint, .tt-input, .tt-menu { width: 100%; }
+.twitter-typeahead, .tt-hint, .tt-input, .tt-menu { width: 100% !important;}
