@@ -30,16 +30,19 @@
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item"><strong>Last Price:</strong>
-						<small>${{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}</small>
+						<small>
+              <i class="fa fa-usd" aria-hidden="true"></i>
+               {{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}
+            </small>
 						<br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}
 					</li>
 					<li class="list-group-item"><strong>Volume:</strong> </i> {{(user.currency.base_volume *
 						bitcoin.last_price) | round }}
 					</li>
-					<li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					<li class="list-group-item"><strong>24H High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
 						{{"%.10f"|format(user.currency.day_high)}}
 					</li>
-					<li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+					<li class="list-group-item"><strong>24H Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
 						{{"%.10f"|format(user.currency.day_low)}}
 					</li>
 					<li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
@@ -50,10 +53,10 @@
 					</li>
 				</ul>
 				<div class="card-block-bottom">
-					<br> <!--do a padding instead of break-->
 					<!--where modal begins-->
 					<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
-						data-target="#largeModal" onclick="insert_iframe('{{ user.market.coin_ticker }}')">Spread</a>
+						data-target="#largeModal" onclick="insert_iframe('{{ user.market.coin_ticker }}')">Details</a>
+            <a href="#" class="btn btn-lg btn-danger">Delete</a>
 					<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
 						aria-hidden="true">
 						<div class="modal-dialog modal-lg">
@@ -104,10 +107,10 @@
 				</li>
 			</ul>
 			<div class="card-block-bottom">
-				<br> <!--do a padding instead of break-->
 				<!--where modal begins-->
 				<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
-					data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Spread</a>
+					data-target="#largeModal" onclick="insert_iframe('{{ market.coin_ticker }}')">Details</a>
+
 				<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
 					aria-hidden="true">
 					<div class="modal-dialog modal-lg">
@@ -120,7 +123,6 @@
 							<div class="modal-body" id="modal-iframe"></div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<!--<button type="button" class="btn btn-primary">Save changes</button>-->
 							</div>
 						</div>
 					</div>
