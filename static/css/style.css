@@ -31,10 +31,6 @@ html, body {
 .card-block-bottom {
    margin-top: 0.7rem;
 }
-
-.delete-btn {
-  display: inline-block;
-}
 .card-title {
   flex: auto;
 }
@@ -74,6 +70,7 @@ html, body {
 
 .table td, .table th {
     font-size: .5rem !important;
+    text-align: center;
     padding: 6px !important;
 }
 
