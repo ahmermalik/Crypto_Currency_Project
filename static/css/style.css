@@ -82,7 +82,7 @@ html, body {
 }
 
 #bloodhound {
-  justify-content:flex-start;
+  justify-content:center;
 }
 
 input.search-box {
