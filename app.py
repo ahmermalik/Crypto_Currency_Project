@@ -108,16 +108,16 @@ class DashboardHandler(TemplateHandler):
     # redirected to login_url in application setting
     @tornado.web.authenticated
     def get(self):
-        user = int(self.current_user)
+        user = User.select().where(User.id == int(self.current_user)).get()
         names = self.currency_names()
         # get user's portfolio based off of slug in url
-        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user)
+        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user.id)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
             market = Market.select().join(Currency).where(Currency.coin_pair == "USDT-BTC").get()
-            return self.render_template("dashboard.html", {"market": market, "bitcoin": bitcoin, 'names': names})
-        return self.render_template("dashboard.html", {"bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+            return self.render_template("dashboard.html", {"user": user, "market": market, "bitcoin": bitcoin, 'names': names})
+        return self.render_template("dashboard.html", {"user": user, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
     def currency_names(self):
         currencies = []
@@ -146,7 +146,8 @@ class AddHandler(TemplateHandler):
             userCurr.save()
         elif markets:
             for user in markets:
-                if user.user_id == userID:
+
+                if user.user_id != userID:
                     userCurr = UserCurrency.create(user_id=userID,
                                                     market_id=market.id,
                                                     currency_id=market.id)
@@ -155,10 +156,10 @@ class AddHandler(TemplateHandler):
 
 class TableHandler (TemplateHandler):
     def get (self, ticker):
-        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market=BTC-{}&type=both'.format(ticker))
-
+        response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market={}&type=both'.format(ticker))
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
+
 
 class LandingHandler (TemplateHandler):
     def get(self):
@@ -168,13 +169,23 @@ class LandingHandler (TemplateHandler):
         else:
             self.render_template("landing.html")
 
+class DeleteHandler(TemplateHandler):
+    @tornado.web.authenticated
+    def get(self, slug):
+        self.redirect("/dashboard")
+
+    @tornado.web.authenticated
+    def post(self, slug):
+        userID = int(self.current_user)
+        UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
+        self.redirect("/dashboard")
+        
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
     "cookie_secret": os.environ["COOKIE_SECRET"],
     "login_url": "/"
     }
-
 
 def make_app():
     return tornado.web.Application([
@@ -184,6 +195,7 @@ def make_app():
         (r"/dashboard", DashboardHandler),
         (r"/welcome", LandingHandler),
         (r"/add", AddHandler),
+        (r"/delete/(.*)", DeleteHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
