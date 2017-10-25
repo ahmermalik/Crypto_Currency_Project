@@ -64,7 +64,9 @@
 					<!--where modal begins-->
 					<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
 						data-target="#largeModal" onclick="insert_iframe('{{ user.market.coin_pair }}')">Details</a>
+
             <form action="/delete/{{user.currency.id}}" method="post" class="delete-btn">
+
               <button type="submit" class="btn btn-lg btn-danger">Delete</button>
             </form>
 					<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"

@@ -32,7 +32,6 @@ html, body {
    margin-top: 0.7rem;
 }
 
-
 .delete-btn {
   display: inline-block;
 }
@@ -107,6 +106,7 @@ input.search-box {
   height: 50px;
 }
 
+
 /*test*/
 
 @media (max-width: 767px) {
@@ -130,9 +130,9 @@ input.search-box {
    }
  }
 
-
 .modal-subheader {
 
 text-align: center !important;
 
 }
+
