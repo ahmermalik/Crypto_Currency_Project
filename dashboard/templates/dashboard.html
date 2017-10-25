@@ -3,14 +3,17 @@
 <link rel="stylesheet" href="/static/css/search.css" type="text/css">
 {% endblock %}
 {% block search %}
-<div id="bloodhound" class="input-group">
-  <form class="search-box-form" action="/add" method="POST">
-    <input name="currencyName" class="typeahead form-control search-box" type="text" placeholder="Enter the currency">
-    <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit">Add</button>
-    </span>
-  </form>
+<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_search">
+  <div id="bloodhound" class="input-group">
+    <form class="search-box-form" action="/add" method="POST">
+      <input name="currencyName" class="typeahead form-control search-box" type="text" placeholder="Enter the currency">
+      <span class="input-group-btn">
+          <button class="btn btn-secondary" type="submit">Add</button>
+      </span>
+    </form>
+  </div>
 </div>
+
 {% endblock %}
 
 
