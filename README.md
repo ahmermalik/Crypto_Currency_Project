@@ -14,8 +14,8 @@ CONTENTS OF THIS FILE
  
 Introduction
 ------------
-This project was done by Ahmer Malik, Monis Rizvi, and Emmanuel Garcia. The purpose
-of the project was to display our full stack capabilities utilizing several technologies such as the Tornado framework, Prostgres database, Jquery, HTML, CSS.
+The purpose of the project was to display our full stack capabilities utilizing several technologies such as the Tornado framework, Prostgres database, Jquery, HTML, CSS. The project was done by Ahmer Malik, Monis Rizvi, and Emmanuel Garcia.
+
 
 
 Requirements
@@ -44,4 +44,4 @@ python app.py <br>
 
 Maintainers
 -----------
-Ahmer Malik
+N/A
