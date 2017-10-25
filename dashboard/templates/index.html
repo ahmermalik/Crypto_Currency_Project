@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block userButtons %}
+    {% if not user %}
+        <a class="btn btn-primary" href="/login">Login</a>
+    {% else %}
+        <a class="btn btn-success" href="/dashboard">Portfolio</a>
+        <a class="btn btn-danger" href="/logout">Logout</a>
+    {% endif %}
+{% endblock %}
+
 {% block  content %}
 <div class="wrapper">
     <div class="row databox entry-content mx-3">

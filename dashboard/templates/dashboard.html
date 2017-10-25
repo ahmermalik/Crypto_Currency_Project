@@ -4,13 +4,18 @@
 {% endblock %}
 {% block search %}
 <div id="bloodhound" class="input-group">
-  <form class="search-box-form" action="/add/{{loggedInUser.id}}" method="POST">
+  <form class="search-box-form" action="/add" method="POST">
     <input name="currencyName" class="typeahead form-control search-box" type="text" placeholder="Enter the currency">
     <span class="input-group-btn">
         <button class="btn btn-secondary" type="submit">Add!</button>
     </span>
   </form>
 </div>
+{% endblock %}
+
+
+{% block userButtons %}
+  <a class="btn btn-danger" href="/logout">Logout</a>
 {% endblock %}
 
 {% block  content %}

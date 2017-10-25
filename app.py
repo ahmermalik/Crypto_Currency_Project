@@ -22,8 +22,6 @@ ENV = Environment(
 PORT = int(os.environ.get('PORT', '8080'))
 
 
-
-
 class TemplateHandler(tornado.web.RequestHandler):
     def render_template(self, tpl, context):
         template = ENV.get_template(tpl)
@@ -36,13 +34,13 @@ class TemplateHandler(tornado.web.RequestHandler):
 
 class MainHandler(TemplateHandler):
     def get(self):
-        loggedInUser = False
+        user = False
         if self.current_user:
-            loggedInUser = int(self.current_user)
+            user = int(self.current_user)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
         # set bitcoin as variable in order to render the price on the index page.
         markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-        return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "loggedInUser": loggedInUser})
+        return self.render_template("index.html", {'markets': markets, "bitcoin": bitcoin, "user": user})
 
     def post(self):
         url = "https://bittrex.com/api/v1.1/public/getmarketsummary"
@@ -50,8 +48,6 @@ class MainHandler(TemplateHandler):
         querystring = {"market": "btc-" + coin}
         response = requests.post(url, params=querystring)
         self.render_template("index.html", {'data': response.json()})
-
-
 
 
 class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
@@ -91,7 +87,7 @@ class LoginHandler(tornado.web.RequestHandler, tornado.auth.GoogleOAuth2Mixin):
             # Using user's unique id number as their cookie
             self.set_secure_cookie('crypto_user', str(user.id))
             # Redirect to user's dashbaord
-            return self.redirect('/dashboard/{}'.format(user.id))
+            return self.redirect('/dashboard')
 
         # This portion actually gets triggered first upon a person's first login
         # An authorization `code` is returned from Google
@@ -111,25 +107,23 @@ class LogoutHandler(TemplateHandler):
         self.clear_cookie('crypto_user')
         return self.redirect('/')
 
-# Create user dashboard handler
+
 class DashboardHandler(TemplateHandler):
     # If a request goes to a method with this decorator,
     # and the user is not logged in, they will be
     # redirected to login_url in application setting
     @tornado.web.authenticated
-    def get(self, slug):
+    def get(self):
+        user = int(self.current_user)
         names = self.currency_names()
         # get user's portfolio based off of slug in url
-        # the slug in the URL is their unique ID number
-        loggedInUser = User.select().where(User.id == slug).get()
-        userMarkets = UserCurrency.select().where(UserCurrency.user_id == loggedInUser.id)
+        userMarkets = UserCurrency.select().where(UserCurrency.user_id == user)
         bitcoin = Currency.select().where(Currency.coin_pair == "USDT-BTC").get()
-
         # set bitcoin as variable in order to render the price on the index page.
         if not userMarkets:
             markets = Market.select().join(Currency).where(Currency.id == Market.currency_id).order_by(Currency.volume.desc()).limit(6)
-            return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "markets": markets, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
-        return self.render_template("dashboard.html", {"loggedInUser": loggedInUser, "bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
+            return self.render_template("dashboard.html", {"markets": markets, "bitcoin": bitcoin, 'names': names})
+        return self.render_template("dashboard.html", {"bitcoin": bitcoin, "userMarkets": userMarkets, 'names': names})
 
     def currency_names(self):
         currencies = []
@@ -142,31 +136,28 @@ class DashboardHandler(TemplateHandler):
 
 class AddHandler(TemplateHandler):
     @tornado.web.authenticated
-    def post(self, slug):
+    def get(self):
+        self.redirect("/dashboard")
+
+    @tornado.web.authenticated
+    def post(self):
+        userID = int(self.current_user)
         currencyName = self.get_body_argument("currencyName")
-        print(currencyName, "CURRENCY NAME")
         market = Market.select().where((Market.coin_pair == currencyName) | (Market.coin_name == currencyName)).get()
-        print(market.coin_pair, "COIN NAME")
-        print(market.id, "ID")
         markets = UserCurrency.select().where(UserCurrency.market_id == market.id)
-        print(markets, "MARKETS")
         if not markets:
-            print("IONSIDE MARKEYTS")
-            print("Creating UserCurrency")
-            userCurr = UserCurrency.create(user_id=slug,
+            userCurr = UserCurrency.create(user_id=userID,
                                             market_id=market.id,
                                             currency_id=market.id)
             userCurr.save()
         elif markets:
             for user in markets:
-                print(user, "USERS")
                 if user.user_id == slug:
-                    userCurr = UserCurrency.create(user_id=slug,
+                    userCurr = UserCurrency.create(user_id=userID,
                                                     market_id=market.id,
                                                     currency_id=market.id)
                     userCurr.save()
-        return self.redirect("/dashboard/{}".format(slug))
-
+        return self.redirect("/dashboard")
 
 class TableHandler (TemplateHandler):
     def get (self, ticker):
@@ -188,8 +179,8 @@ def make_app():
         (r"/", MainHandler),
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
-        (r"/dashboard/(.*)", DashboardHandler),
-        (r"/add/(.*)", AddHandler),
+        (r"/dashboard", DashboardHandler),
+        (r"/add", AddHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),

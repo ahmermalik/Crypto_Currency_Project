@@ -24,14 +24,8 @@
             {% endblock %}
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 header_userauth">
-          {% if not loggedInUser %}
-            <a class="btn btn-primary" href="/login">Login</a>
-          {% else %}
-            {% if not loggedInUser.fname %}
-            <a class="btn btn-success" href="/dashboard/{{loggedInUser}}">Portfolio</a>
-            {% endif%}
-            <a class="btn btn-danger" href="/logout">Logout</a>
-          {% endif %}
+          {% block userButtons %}
+          {% endblock %}
         </div>
     </div>
   </div>
