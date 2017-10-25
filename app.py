@@ -160,6 +160,14 @@ class TableHandler (TemplateHandler):
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
+class LandingHandler (TemplateHandler):
+    def get(self):
+        user = int(self.current_user)
+        if user:
+            self.redirect("/dashboard")
+        else:
+            self.render_template("landing.html")
+
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
@@ -174,6 +182,7 @@ def make_app():
         (r"/login", LoginHandler),
         (r"/logout", LogoutHandler),
         (r"/dashboard", DashboardHandler),
+        (r"/welcome", LandingHandler),
         (r"/add", AddHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
