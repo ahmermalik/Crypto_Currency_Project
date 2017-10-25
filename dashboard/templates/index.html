@@ -17,20 +17,25 @@
         <div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
             <div class="card-block-top">
                 <h5 class="card-title">{{market.coin_name}} - {{market.coin_pair}}</h5>
+                {% if market.coin_logo == None %}
+                <img class="card-img-top" src="/static/images/nologo.png" alt="{{market.coin_pair}}">
+                {% else %}
                 <img class="card-img-top" src="{{market.coin_logo}}" alt="{{market.coin_pair}}">
+                {% endif %}
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Last Price:</strong>
-                    <small>${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}</small>
-                    <br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}
+                    <i class="fa fa-usd" aria-hidden="true"></i> ${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}
+                <li class="list-group-item"><strong>Last Price:</strong>
+                    <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}
                 </li>
                 <li class="list-group-item"><strong>Volume:</strong> </i> {{(market.currency.base_volume *
                     bitcoin.last_price) | round }}
                 </li>
-                <li class="list-group-item"><strong>24 High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+                <li class="list-group-item"><strong>24H High:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
                     {{"%.10f"|format(market.currency.day_high)}}
                 </li>
-                <li class="list-group-item"><strong>24 Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
+                <li class="list-group-item"><strong>24H Low:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
                     {{"%.10f"|format(market.currency.day_low)}}
                 </li>
                 <li class="list-group-item"><strong>Bid:</strong> <i class="fa fa-btc" aria-hidden="true"></i>
@@ -57,7 +62,6 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
                             </div>
                         </div>
                     </div>

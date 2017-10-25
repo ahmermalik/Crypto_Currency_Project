@@ -26,15 +26,18 @@
 			<div class="col-lg-4 col-md-6 col-xs-12 card expose mp-3">
 				<div class="card-block-top">
 					<h5 class="card-title">{{user.market.coin_name}} - {{user.market.coin_pair}}</h5>
+          {% if user.market.coin_logo == None %}
+          <img class="card-img-top" src="/static/images/nologo.png" alt="{{user.market.coin_pair}}">
+          {% else %}
 					<img class="card-img-top" src="{{user.market.coin_logo}}" alt="{{user.market.coin_pair}}">
+          {% endif %}
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item"><strong>Last Price:</strong>
-						<small>
-              <i class="fa fa-usd" aria-hidden="true"></i>
-               {{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}
-            </small>
-						<br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}
+              <i class="fa fa-usd" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}
+					</li>
+          <li class="list-group-item"><strong>Last Price:</strong>
+            <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}
 					</li>
 					<li class="list-group-item"><strong>Volume:</strong> </i> {{(user.currency.base_volume *
 						bitcoin.last_price) | round }}
@@ -56,7 +59,9 @@
 					<!--where modal begins-->
 					<a href="#" class="btn btn-lg btn-primary" data-toggle="modal"
 						data-target="#largeModal" onclick="insert_iframe('{{ user.market.coin_ticker }}')">Details</a>
-            <a href="#" class="btn btn-lg btn-danger">Delete</a>
+            <form action="/delete/{{user.currency.id}}" method="post">
+              <button type="submit" class="btn btn-lg btn-danger">Delete</button>
+            </form>
 					<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal"
 						aria-hidden="true">
 						<div class="modal-dialog modal-lg">
@@ -70,7 +75,6 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<!--<button type="button" class="btn btn-primary">Save changes</button>-->
 								</div>
 							</div>
 						</div>

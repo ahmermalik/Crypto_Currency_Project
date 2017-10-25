@@ -166,13 +166,29 @@ class TableHandler (TemplateHandler):
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
+class DeleteHandler(TemplateHandler):
+    @tornado.web.authenticated
+    def get(self, slug):
+        self.redirect("/dashboard")
+
+
+    @tornado.web.authenticated
+    def post(self, slug):
+        print(slug)
+        userID = int(self.current_user)
+        print(userID)
+        # currency = UserCurrency.select().where(UserCurrency.currency_id == slug)
+        UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
+        self.redirect("/dashboard")
+
+
+
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
     "cookie_secret": os.environ["COOKIE_SECRET"],
     "login_url": "/"
     }
-
 
 def make_app():
     return tornado.web.Application([
@@ -181,6 +197,7 @@ def make_app():
         (r"/logout", LogoutHandler),
         (r"/dashboard", DashboardHandler),
         (r"/add", AddHandler),
+        (r"/delete/(.*)", DeleteHandler),
         (r"/table/(.*)", TableHandler),
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
