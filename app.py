@@ -146,7 +146,7 @@ class AddHandler(TemplateHandler):
             userCurr.save()
         elif markets:
             for user in markets:
-                if user.user_id == slug:
+                if user.user_id == userID:
                     userCurr = UserCurrency.create(user_id=userID,
                                                     market_id=market.id,
                                                     currency_id=market.id)
