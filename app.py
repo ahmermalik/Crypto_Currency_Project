@@ -152,7 +152,7 @@ class AddHandler(TemplateHandler):
             userCurr.save()
         elif markets:
             for user in markets:
-                if user.user_id == slug:
+                if user.user_id == userID:
                     userCurr = UserCurrency.create(user_id=userID,
                                                     market_id=market.id,
                                                     currency_id=market.id)
@@ -166,18 +166,17 @@ class TableHandler (TemplateHandler):
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
 
+
 class DeleteHandler(TemplateHandler):
     @tornado.web.authenticated
     def get(self, slug):
         self.redirect("/dashboard")
-
 
     @tornado.web.authenticated
     def post(self, slug):
         print(slug)
         userID = int(self.current_user)
         print(userID)
-        # currency = UserCurrency.select().where(UserCurrency.currency_id == slug)
         UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
         self.redirect("/dashboard")
 
