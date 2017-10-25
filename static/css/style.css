@@ -76,3 +76,15 @@ html, body {
     padding: 12px;
     }
 }
+
+#bloodhound {
+  justify-content: center;
+}
+
+input.search-box {
+  width: auto !important;
+}
+
+.search-box-form {
+  display: flex;
+}
