@@ -14,7 +14,7 @@ DB = connect(
 
 
 class BaseModel(peewee.Model):
-    """your base model will always stay the same. all the other tables will inhert from this."""
+    """your base model will always stay the same. all the other tables will inherit from this."""
     class Meta:
         database = DB
 
