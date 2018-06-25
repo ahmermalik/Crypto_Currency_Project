@@ -36,6 +36,7 @@ def market_update(currency):
     if not isFound:
         Market.create(currency_id=currency.id).save()
 
+
 def currency_update():
     while True:
         currency_response = requests.request("GET", currency_url).json()['result']
@@ -85,5 +86,6 @@ def currency_update():
         
         print("Paused for 900 seconds")
         time.sleep(900)
+
 
 currency_update()
