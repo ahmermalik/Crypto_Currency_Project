@@ -101,10 +101,12 @@
         {% endif %}
 			</div>
 			<ul class="list-group list-group-flush">
-				<li class="list-group-item"><strong>Last Price:</strong>
-					<small>${{"%.10f"|format(market.currency.last_price * bitcoin.last_price)}}</small>
-					<br> <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(market.currency.last_price)}}
-				</li>
+        <li class="list-group-item"><strong>Last Price:</strong>
+            <i class="fa fa-usd" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price * bitcoin.last_price)}}
+        </li>
+        <li class="list-group-item"><strong>Last Price:</strong>
+          <i class="fa fa-btc" aria-hidden="true"></i> {{"%.10f"|format(user.currency.last_price)}}
+        </li>
 				<li class="list-group-item"><strong>Volume:</strong> </i> {{(market.currency.base_volume *
 					bitcoin.last_price) | round }}
 				</li>
