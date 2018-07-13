@@ -153,9 +153,8 @@ class AddHandler(TemplateHandler):
                     userCurr.save()
         return self.redirect("/dashboard")
 
-
 class TableHandler (TemplateHandler):
-    def get(self, ticker):
+    def get (self, ticker):
         response = requests.get('https://bittrex.com/api/v1.1/public/getorderbook?market={}&type=both'.format(ticker))
         results = response.json()['result']
         return self.render_template("table.html", {'buy': results['buy'], 'sell': results['sell']})
@@ -179,14 +178,12 @@ class DeleteHandler(TemplateHandler):
         UserCurrency.delete().where((UserCurrency.user_id == userID) & (UserCurrency.currency_id == slug)).execute()
         self.redirect("/dashboard")
 
-
 settings = {
     "autoreload": True,
     "google_oauth": {"key": os.environ["CLIENT_ID"], "secret": os.environ["CLIENT_SECRET"]},
     "cookie_secret": os.environ["COOKIE_SECRET"],
     "login_url": "/"
     }
-
 
 def make_app():
     return tornado.web.Application([
@@ -201,7 +198,6 @@ def make_app():
         (r"/static/(.*)",
          tornado.web.StaticFileHandler, {'path': 'static'}),
     ], **settings)
-
 
 if __name__ == "__main__":
     tornado.log.enable_pretty_logging()
