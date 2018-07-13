@@ -196,8 +196,8 @@ def make_app():
         (r"/delete/(.*)", DeleteHandler),
         (r"/table/(.*)", TableHandler),
         (r'/(favicon\.ico)', tornado.web.StaticFileHandler, {'path': static/images/bitcoin.png}),
-        (r"/static/(.*)",
-         tornado.web.StaticFileHandler, {'path': 'static'}),
+        (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
+        (r'/', WebHandler),
     ], **settings)
 
 if __name__ == "__main__":
