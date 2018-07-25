@@ -1,0 +1,4 @@
+to push local db
+heroku pg:push crypto_database HEROKU_POSTGRESQL_WHITE_URL
+
+
