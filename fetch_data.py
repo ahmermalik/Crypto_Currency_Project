@@ -84,8 +84,8 @@ def currency_update():
                                 open_sell=open_sell,
                                 prev_day=prev_day).where(Currency.coin_pair == coin_pair).execute()
         
-        print("Paused for 900 seconds")
-        time.sleep(900)
+        print("Paused for 120 seconds")
+        time.sleep(120)
 
 
 currency_update()
