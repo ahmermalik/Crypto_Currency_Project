@@ -1,0 +1,35 @@
+{
+  "name": "cryptotistics",
+  "homepage": "www.cryptotistics.com",
+  "authors": [
+    "ahmer malik"
+  ],
+  "description": "crypto currency application",
+  "main": "app.py",
+  "keywords": [
+    "crypto",
+    "bittrex",
+    "api",
+    "full",
+    "stack",
+    "ahmer",
+    "malik"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-card": "PolymerElements/paper-card#^2.1.0",
+    "typeahead.js": "^0.11.1",
+    "material-components-web": "https://github.com/material-components/material-components-web",
+    "emoji-rain": "^2.0.0",
+    "iron-image": "PolymerElements/iron-image#^2.2.1",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.3",
+    "paper-styles": "PolymerElements/paper-styles#^2.1.0"
+  }
+}
